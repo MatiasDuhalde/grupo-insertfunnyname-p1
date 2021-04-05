@@ -1,0 +1,34 @@
+.ifn-button {
+  &.primary {
+    background-color: $primary-color-light;
+    color: $black-text;
+  }
+
+  &.secondary {
+    background-color: $secondary-color-light;
+    color: $white-text;
+  }
+  transition: 0.2s;
+  text-align: center;
+  padding: 10px 10px;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 2px 3px 4px 0 rgba(60, 64, 67, 0.3);
+}
+
+button.ifn-button {
+  cursor: pointer;
+  border: none;
+}
+
+button.ifn-button:active {
+  box-shadow: none;
+}
+
+button.ifn-button:focus {
+  filter: brightness(90%);
+}
+
+.ifn-button:hover {
+  box-shadow: 2px 3px 4px 0 rgba(60, 64, 67, 0.8);
+}

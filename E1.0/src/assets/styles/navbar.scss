@@ -8,10 +8,6 @@ header {
   background: $header-bg;
 }
 
-* {
-  transition: all 0.3s;
-}
-
 .navbar {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -25,12 +21,15 @@ header {
   &.floating-navbar {
     box-shadow: 0 4px 30px -5px rgba(#000, 0.2);
     height: 64px;
+
     #navbar-word-mark {
       display: none;
     }
+
     .logo img {
       height: 50px;
     }
+
     a {
       font-size: 18px;
     }
@@ -72,6 +71,7 @@ header {
 .logo img {
   height: 100px;
   width: 100%;
+  transition: all 0.3s;
 }
 
 #menu-container {
@@ -83,20 +83,24 @@ header {
     display: flex;
     align-items: center;
     list-style: none;
+    margin: 0;
   }
 
   li {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    height: 2em;
     margin-left: 20px;
-    a {
-      display: flex;
-      align-items: center;
-      padding-left: 20px;
-      padding-right: 20px;
-      height: 2em;
-      background: $accent;
-      border-radius: 90px;
-      box-sizing: border-box;
-    }
+    padding-left: 20px;
+    padding-right: 20px;
+    background: $accent;
+    border-radius: 90px;
+  }
+
+  a {
+    transition: all 0.3s;
   }
 }
 

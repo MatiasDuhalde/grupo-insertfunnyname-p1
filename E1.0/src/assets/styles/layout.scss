@@ -10,3 +10,7 @@ body {
   background-color: $white-text;
   scroll-behavior: smooth;
 }
+
+main {
+  margin-top: $navbar-height;
+}

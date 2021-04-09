@@ -2,6 +2,8 @@ $header-bg: #5661f2;
 $nav-bg: #46b2f0;
 $accent: #ffffff;
 
+$navbar-height: 160px;
+
 header {
   display: flex;
   width: 100vw;
@@ -15,7 +17,7 @@ header {
   z-index: 10;
   transition: all 0.3s;
   width: 100vw;
-  height: 160px;
+  height: $navbar-height;
   background: $nav-bg;
 
   &.floating-navbar {

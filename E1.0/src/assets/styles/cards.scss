@@ -37,47 +37,6 @@ main {
 	text-align: left;
 }
 
-/*Color Scheme*/
-#bluepurple {
-	+ label {
-		background: linear-gradient(to left, #673ab7 50%, #03a9f4 50%);
-	}
-	&:checked ~ main {
-		--backgroundColor: #fff;
-		--foregroundColor: #111;
-		--primaryColor: #03a9f4;
-		--primaryShade1: #e1f5fe;
-		--primaryShade2: #b3e5fc;
-		--primaryShade3: #4fc3f7;
-		--primaryShade4: #0288d1;
-		--primaryShade5: #0277bd;
-		--secondaryColor: #673ab7;
-		--secondaryShade1: #ede7f6;
-		--secondaryShade2: #d1c4e9;
-		--secondaryShade3: #9575cd;
-		--secondaryShade4: #512da8;
-		--secondaryShade5: #311b92;
-		--accentColor: #009688;
-		--accentShade1: #e0f2f1;
-		--accentShade2: #b2dfdb;
-		--accentShade3: #4db6ac;
-		--accentShade4: #00796b;
-		--accentShade5: #004d40;
-		--accent2Color: #8bc34a;
-		--accent2Shade1: #e7f6d5;
-		--accent2Shade2: #c5e1a5;
-		--accent2Shade3: #aed581;
-		--accent2Shade4: #689f38;
-		--accent2Shade5: #558b2f;
-		--accent3Color: #f44336;
-		--accent3Shade1: #ffdde0;
-		--accent3Shade2: #ffcdd2;
-		--accent3Shade3: #ef9a9a;
-		--accent3Shade4: #d32f2f;
-		--accent3Shade5: #b71c1c;
-	}
-}
-
 /*typography*/
 strong {
 	font-weight: 500;

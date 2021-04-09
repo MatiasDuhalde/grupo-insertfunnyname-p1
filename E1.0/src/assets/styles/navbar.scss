@@ -35,6 +35,10 @@ header {
     a {
       font-size: 18px;
     }
+    #menu-container ul #profile-picture-container {
+      height: 50px;
+      width: 50px;
+    }
   }
 
   a {
@@ -104,6 +108,21 @@ header {
   a {
     transition: all 0.3s;
   }
+}
+
+#profile-picture {
+  max-height: 100%;
+  border-radius: 50%;
+  border: 3px solid $accent;
+  box-sizing: border-box;
+}
+
+#menu-container ul #profile-picture-container {
+  transition: all 0.3s;
+  padding: 0;
+  display: block;
+  height: 90px;
+  width: 90px;
 }
 
 /*

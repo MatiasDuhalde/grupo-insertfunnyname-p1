@@ -1,0 +1,43 @@
+.tweet-card{
+    background-color: $postbackground-color;
+    border-bottom: 1px solid $postbotton;
+    padding: 9px 12px;
+    margin: auto;
+    width: 50%;
+
+}
+
+.tweet-header{
+    color: $black-text;
+    font-size:large;
+    text-align: center;
+    
+}
+
+.tweet-body{
+    margin-left: 58px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: normal   
+}
+
+.tweet-text{
+    color: $black-text
+
+}
+.circular-img {
+    border-radius: 50%;
+    height: 48px;
+    width: 48px;
+    float: left;
+    margin-top: 3px;
+    margin-left: -58px;
+  }
+
+.tweet-username{
+    border-radius: 50%;
+    float: left;
+    margin-top: 3px;
+    margin-left: -58px;
+    color: $postuser;
+}

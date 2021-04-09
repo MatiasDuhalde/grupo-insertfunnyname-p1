@@ -1,22 +1,27 @@
-<head>
-  <link rel="stylesheet" href="<%= assetPath('navbar.css') %>" />
-</head>
 <body>
-  <div class="top-navbar">
-    <button class="ifn-button primary" id="sidebar-toggle-button"><span class="material-icons">menu</span></button>
-    <div id="logo">
-      <a href="/"><img src="<%= assetPath('logo.png') %>" alt="Logo" /></a>
-      <a href="/"><h1 class="brand">TrippieBook</h1></a>
-    </div>
-    <div id="search-bar">
-      <form>
-        <input type="text" name="searchQuery" placeholder="Search"/>
-        <button class="ifn-button primary" id="search-button" type="submit"><span class="material-icons">search</span></button>
-      </form>
-    </div>
-    <div class="user-buttons">
-      <a class="ifn-button primary" href="user/1">My profile</a>
-      <a class="ifn-button secondary" href="user/1">Log out</a>
-    </div>
-  </div>
+  <header>
+    <nav class="navbar">
+      <div id="brand-container">
+        <div class="brand">
+          <div class="logo">
+            <a href="/"><img src="<%= assetPath('logo.png') %> " alt="Logo"/></a>
+          </div>
+          <div class="word-mark" id="navbar-word-mark">
+            <a href="/" >TrippieBook</a>
+          </div>
+        </div>
+      </div>
+      <div id="menu-container">
+        <ul>
+          <li>
+            <a href="/signup">Sign Up</a>
+          </li>
+          <li>
+            <a href="/login">Log In</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <script src="<%= assetPath('navbar.js') %>"></script>
 </body>

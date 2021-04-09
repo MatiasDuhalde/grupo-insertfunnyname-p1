@@ -2,20 +2,20 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 
-const developmentMode = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+const developmentMode =
+  !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 module.exports = {
   mode: developmentMode ? 'development' : 'production',
   context: path.join(__dirname, 'src', 'assets'),
   entry: {
     app: ['./js/index.js', './js/app.jsx'],
+    navbar: ['./js/navbar.js'],
   },
   output: {
     publicPath: '/assets/',
     path: path.join(__dirname, 'build', 'assets'),
-    filename: developmentMode
-      ? '[name].js'
-      : '[name]-[hash].js',
+    filename: developmentMode ? '[name].js' : '[name]-[hash].js',
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.css', '.scss'],

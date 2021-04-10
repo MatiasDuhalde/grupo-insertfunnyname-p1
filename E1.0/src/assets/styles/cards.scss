@@ -151,13 +151,23 @@ main {
     }
 
     &__user {
+      display: flex;
+      align-items: center;
       img {
-        width: 30px;
+        width: 100px;
         object-fit: contain;
+        border-radius: 50%;
+        margin-right: 40px;
+        margin-top: 10px;
+        margin-bottom: 10px;
       }
     } 
   }
   .card__stats {
     margin: 5px 25px;
+    h5{
+      margin-top: 3px;
+      margin-bottom: 3px;
+    }
   }
 }

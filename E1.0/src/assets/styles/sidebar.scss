@@ -3,4 +3,21 @@
   align-self: start;
   top: 0;
   left: 0;
+	width: 300px;
+	border-radius: 10px;
+  border-width: 0 1px;
+	text-align: center;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-gap: 10px;
+  box-shadow: 0 3px 15px rgba(#333, 0.2);
+  transition: 0.2s ease;
 }
+
+.sidebar-header{
+	margin: 10px 30px 15px;
+  font: 700 20px/1.2 'Poppins', sans-serif;
+  margin-bottom: 10px;
+}
+
+

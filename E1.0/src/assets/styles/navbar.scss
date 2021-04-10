@@ -1,4 +1,3 @@
-$header-bg: #5661f2;
 $nav-bg: #46b2f0;
 $accent: #ffffff;
 
@@ -7,7 +6,12 @@ $navbar-height: 160px;
 header {
   display: flex;
   width: 100vw;
-  background: $header-bg;
+  background: $nav-bg;
+}
+
+.navbar-offset {
+  display: block;
+  height: 160px;
 }
 
 .navbar {
@@ -76,7 +80,6 @@ header {
 
 .logo img {
   height: 100px;
-  width: 100%;
   transition: all 0.3s;
 }
 

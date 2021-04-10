@@ -74,6 +74,7 @@ main {
 
 .card {
   position: relative;
+  overflow: hidden;
   box-shadow: 0 3px 15px rgba(#333, 0.2);
   border-radius: 20px;
   transition: 0.2s ease;
@@ -94,16 +95,19 @@ main {
 }
 
 .index-post {
-  width: auto;
+  width: 50vw;
+  min-width: 600px;
   display: grid;
 
   margin-bottom: 50px;
 
   grid: auto auto auto / repeat(3, minmax(80px, 1fr));
+
   .card__image {
     grid-column: span 3;
     max-height: 300px;
   }
+
   .card__info {
     border-top: 7px solid var(--secondaryColor);
     grid-column: span 3;
@@ -112,14 +116,40 @@ main {
     padding-left: 20px;
     padding-right: 20px;
 
-    h3 {
-      margin: 10px 0 10px;
+    &__user {
+      display: flex;
+      align-items: center;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      .poster-user-picture {
+        border-radius: 50%;
+        width: 50px;
+        margin-right: 10px;
+      }
+      h3 {
+        margin: 10px 0 10px 0;
+      }
     }
-    p {
+
+    &__extra {
+      text-align: justify;
       margin: 0;
+      margin-bottom: 10px;
     }
   }
+
   .card__stats {
-    margin: 5px 25px;
+    display: flex;
+    margin: 10px 25px;
+
+    &__title {
+      margin: 0;
+      margin-right: 20px;
+    }
+
+    &__info {
+      margin: 0;
+      margin-right: auto;
+    }
   }
 }

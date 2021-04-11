@@ -169,6 +169,7 @@ main {
   display: grid;
   min-width: 600px;
   margin-bottom: 50px;
+  padding-bottom: 20px;
 
   grid: auto auto auto / repeat(3, minmax(80px, 1fr));
   .card__image {
@@ -195,11 +196,15 @@ main {
       align-items: center;
       img {
         width: 100px;
-        object-fit: contain;
+        height: 100px;
+        object-fit: cover;
         border-radius: 50%;
         margin-right: 40px;
         margin-top: 10px;
         margin-bottom: 10px;
+      }
+      h2 {
+        margin: 10px;
       }
     }
   }

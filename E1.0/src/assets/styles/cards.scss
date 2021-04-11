@@ -127,6 +127,8 @@ main {
       .poster-user-picture {
         border-radius: 50%;
         width: 50px;
+        height: 50px;
+        object-fit: cover;
         margin-right: 10px;
       }
       h3 {
@@ -195,13 +197,22 @@ main {
         margin-top: 10px;
         margin-bottom: 10px;
       }
-    } 
+    }
   }
   .card__stats {
     margin: 5px 25px;
-    h5{
+    h5 {
       margin-top: 3px;
       margin-bottom: 3px;
     }
+  }
+}
+
+.full-post {
+  @extend .index-post;
+
+  .card__image {
+    grid-column: span 3;
+    max-height: none;
   }
 }

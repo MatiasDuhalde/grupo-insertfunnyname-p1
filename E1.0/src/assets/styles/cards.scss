@@ -159,9 +159,9 @@ main {
 }
 
 .profile-top {
-  width: auto;
+  width: 50vw;
   display: grid;
-
+  min-width: 600px;
   margin-bottom: 50px;
 
   grid: auto auto auto / repeat(3, minmax(80px, 1fr));

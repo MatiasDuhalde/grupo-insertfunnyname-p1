@@ -3,21 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <title>IIC2513 - CHANGE-ME</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <% if (env !== 'development') { %>
-      <link rel="stylesheet" href="<%= assetPath('app.css') %>" />
+    <link rel="stylesheet" href="<%= assetPath('app.css') %>" />
     <% } %>
   </head>
 
   <body class="preload">
-    <%- include('navbar') %>
-    <%- body %>
-    <%- include('footer') %>
+    <%- include('navbar') %> <%- body %> <%- include('footer') %>
     <script src="<%= assetPath('app.js') %>"></script>
     <script>
-      document.body.classList.remove("preload");
+      document.body.classList.remove('preload');
     </script>
   </body>
 </html>

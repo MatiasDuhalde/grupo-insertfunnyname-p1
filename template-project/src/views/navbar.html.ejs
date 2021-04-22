@@ -4,39 +4,45 @@
       <div id="brand-container">
         <div class="brand">
           <div class="logo">
-            <a href="/"><img src="<%= assetPath('logo.png') %> " alt="Logo"/></a>
+            <a href="/"
+              ><img src="<%= assetPath('logo.png') %> " alt="Logo"
+            /></a>
           </div>
           <div class="word-mark" id="navbar-word-mark">
-            <a href="/" >TrippieBook</a>
+            <a href="/">TrippieBook</a>
           </div>
         </div>
       </div>
       <div id="menu-container">
         <ul>
-          <% if (true) { // usuario está logeado %>
-            <% //TODO: spec profile with dynamic link, spec picture %> 
-            <li id="profile-picture-container">
-              <a href="/profile"><img id="profile-picture" src="https://i.pinimg.com/originals/e0/5e/06/e05e061bfc4c6e7799de4aac293a8223.png" alt="Profile picture" /></a>
-            </li>
-            <li>
-              <a href="/profile">User Name</a>
-            </li>
-            <li>
-              <a href="/signout">Sign out</a>
-            </li>
+          <% if (true) { // usuario está logeado %> <% //TODO: spec profile with
+          dynamic link, spec picture %>
+          <li id="profile-picture-container">
+            <a href="/profile"
+              ><img
+                id="profile-picture"
+                src="https://i.pinimg.com/originals/e0/5e/06/e05e061bfc4c6e7799de4aac293a8223.png"
+                alt="Profile picture"
+            /></a>
+          </li>
+          <li>
+            <a href="/profile">User Name</a>
+          </li>
+          <li>
+            <a href="/signout">Sign out</a>
+          </li>
           <% } else { // usuario no está logeado %>
-            <li>
-              <a href="/signup">Sign Up</a>
-            </li>
-            <li>
-              <a href="/login">Log In</a>
-            </li>
-          <% } %> 
+          <li>
+            <a href="/signup">Sign Up</a>
+          </li>
+          <li>
+            <a href="/login">Log In</a>
+          </li>
+          <% } %>
         </ul>
       </div>
     </nav>
-    <div class="navbar-offset">
-    </div>
+    <div class="navbar-offset"></div>
   </header>
   <script src="<%= assetPath('navbar.js') %>"></script>
 </body>

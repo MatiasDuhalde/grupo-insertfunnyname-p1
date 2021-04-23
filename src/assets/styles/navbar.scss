@@ -5,7 +5,6 @@ $navbar-height: 160px;
 
 header {
   display: flex;
-  width: 100vw;
   background: $nav-bg;
 }
 
@@ -39,6 +38,7 @@ header {
     a {
       font-size: 18px;
     }
+
     #menu-container ul #profile-picture-container {
       height: 50px;
       width: 50px;

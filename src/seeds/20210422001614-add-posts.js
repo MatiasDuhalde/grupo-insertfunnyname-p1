@@ -20,7 +20,7 @@ module.exports = {
     const userIds = users[0];
 
     randomPosts.forEach((post) => {
-      post.userId = userIds[Math.floor(Math.random() * users.length)].id;
+      post.userId = userIds[Math.floor(Math.random() * userIds.length)].id;
     });
 
     await queryInterface.bulkInsert('Posts', randomPosts, {});

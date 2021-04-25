@@ -1,6 +1,4 @@
 const KoaRouter = require('koa-router');
-const { render } = require('node-sass');
-const { validate } = require('webpack');
 
 const router = new KoaRouter();
 

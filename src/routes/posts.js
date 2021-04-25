@@ -104,9 +104,6 @@ router.get(
   '/:postId',
   loadDummyUser,
   loadSinglePost,
-  async (ctx, next) => {
-    return next();
-  },
   renderPostPage
 );
 
@@ -127,7 +124,34 @@ router.get(
   loadDummyUser,
   loadSinglePost,
   async (ctx) => {
-    await ctx.render('posts/edit', {});
+    if (ctx.state.currentUser.id !== ctx.state.post.userId) {
+      return (ctx.status = 404);
+    }
+    await ctx.render('posts/edit', {
+      post: ctx.state.post,
+      patchPostPath: (postId) => ctx.router.url('posts.patch', { postId }),
+    });
+  }
+);
+
+router.patch(
+  'posts.patch',
+  '/:postId/edit',
+  loadDummyUser,
+  loadSinglePost,
+  async (ctx) => {
+    try {
+      if (ctx.state.currentUser.id !== ctx.state.post.userId) {
+        return (ctx.status = 404);
+      }
+      const { imageLink, body } = ctx.request.body;
+      ctx.state.post.imageLink = imageLink;
+      ctx.state.post.body = body;
+      await ctx.state.post.save();
+      ctx.redirect(ctx.router.url('posts.index'));
+    } catch (validationError) {
+      ctx.flashMessage.error = validationError.errors;
+    }
   }
 );
 

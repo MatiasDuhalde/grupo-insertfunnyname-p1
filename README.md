@@ -1,6 +1,6 @@
 # grupo-insertfunnyname-p1
 
-Deploy en Heroku: https://insertfunnyname.herokuapp.com/
+Deploy en Heroku: https://trippybook.herokuapp.com/
 
 ## Entrega 1
 
@@ -10,11 +10,11 @@ También, compilamos las views de nuestra app del template para facilitar la cor
 
 Notas:
 
--   Nuestros archivos fueron probados sin problemas en las últimas versiones de Firefox, Safari, Edge, y Chrome, por lo que debería verse correctamente en todos los navegadores. No probamos la aplicacion en dispositivos móviles, por lo que nuestro layout no podría presentarse correctamente en estos.
--   En firefox, algunas imágenes no cargan correctamente (probablemente son bloqueadas por Tracking Protection). Para que se vean, basta con desactivar la protección.
+- Nuestros archivos fueron probados sin problemas en las últimas versiones de Firefox, Safari, Edge, y Chrome, por lo que debería verse correctamente en todos los navegadores. No probamos la aplicacion en dispositivos móviles, por lo que nuestro layout no podría presentarse correctamente en estos.
+- En firefox, algunas imágenes no cargan correctamente (probablemente son bloqueadas por Tracking Protection). Para que se vean, basta con desactivar la protección.
 
 ## Integrantes
 
--   Catalina Álamos
--   Matías Duhalde
--   Felipe Guzmán
+- Catalina Álamos
+- Matías Duhalde
+- Felipe Guzmán

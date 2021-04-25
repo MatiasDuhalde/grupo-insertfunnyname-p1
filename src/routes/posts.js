@@ -4,11 +4,15 @@ const { validate } = require('webpack');
 
 const router = new KoaRouter();
 
+async function getPostUser(ctx, post) {
+  return await ctx.orm.User.findByPk(post.userId);
+}
+
 async function getPostsUsers(ctx, posts) {
   const users = {};
   for (const post of posts) {
     if (users[post.userId] === undefined) {
-      const user = await ctx.orm.User.findByPk(post.userId);
+      const user = await getPostUser(ctx, post);
       users[user.id] = user;
     }
   }
@@ -22,26 +26,48 @@ async function validateIntParam(param, ctx, next) {
 }
 
 async function loadDummyUser(ctx, next) {
-  ctx.state.user = await ctx.orm.User.findByPk(202);
+  ctx.state.currentUser = await ctx.orm.User.findByPk(201);
+  return next();
+}
+
+async function loadSinglePost(ctx, next) {
+  const { postId } = ctx.params;
+  ctx.state.post = await ctx.orm.Post.findByPk(parseInt(postId));
+  if (!ctx.state.post) return ctx.redirect(ctx.router.url('posts.index'));
   return next();
 }
 
 async function renderIndexPage(ctx) {
   const users = await getPostsUsers(ctx, ctx.state.posts);
   await ctx.render('index', {
+    currentUser: ctx.state.currentUser,
     posts: ctx.state.posts,
     users,
+    page: parseInt(ctx.params.page) || 1,
     createPostPath: ctx.router.url('posts.create'),
     deletePostPath: (postId) => ctx.router.url('posts.delete', { postId }),
     showPostPath: (postId) => ctx.router.url('posts.show', { postId }),
+    editPostPath: (postId) => ctx.router.url('posts.edit', { postId }),
     showUserPath: ctx.router.url('users.show'),
+    nextPagePath: (page) => ctx.router.url('posts.page', { page }),
   });
 }
 
 async function renderPostPage(ctx) {
-  const users = await getPostsUsers(ctx, ctx.state.posts);
-  await ctx.render('posts/show', {});
+  const user = await getPostUser(ctx, ctx.state.post);
+  await ctx.render('posts/show', {
+    currentUser: ctx.state.currentUser,
+    post: ctx.state.post,
+    user,
+    deletePostPath: (postId) => ctx.router.url('posts.delete', { postId }),
+    showPostPath: (postId) => ctx.router.url('posts.show', { postId }),
+    editPostPath: (postId) => ctx.router.url('posts.edit', { postId }),
+    showUserPath: ctx.router.url('users.show'),
+  });
 }
+
+router.param('page', validateIntParam);
+router.param('postId', validateIntParam);
 
 router.get(
   'posts.index',
@@ -57,7 +83,7 @@ router.get(
   renderIndexPage
 );
 
-router.param('page', validateIntParam).get(
+router.get(
   'posts.page',
   '/page/:page',
   loadDummyUser,
@@ -73,10 +99,11 @@ router.param('page', validateIntParam).get(
   renderIndexPage
 );
 
-router.param('postId', validateIntParam).get(
+router.get(
   'posts.show',
   '/:postId',
   loadDummyUser,
+  loadSinglePost,
   async (ctx, next) => {
     return next();
   },
@@ -86,7 +113,7 @@ router.param('postId', validateIntParam).get(
 router.post('posts.create', '/', loadDummyUser, async (ctx) => {
   try {
     const { imageLink, body } = ctx.request.body;
-    const userId = ctx.state.user.id;
+    const userId = ctx.state.currentUser.id;
     const post = ctx.orm.Post.create({ imageLink, body, userId });
     ctx.redirect(ctx.router.url('posts.index'));
   } catch (validationError) {
@@ -94,16 +121,27 @@ router.post('posts.create', '/', loadDummyUser, async (ctx) => {
   }
 });
 
-router
-  .param('postId', validateIntParam)
-  .delete('posts.delete', '/:postId', loadDummyUser, async (ctx) => {
-    const { postId } = ctx.params;
-    postId = parseInt(postId);
-    const post = await ctx.orm.Post.findByPk(postId);
-    if (ctx.state.user.id === post.userId) {
-      post.destroy();
-      ctx.redirect(ctx.router.url('posts.page', { page: ctx.params.page }));
+router.get(
+  'posts.edit',
+  '/:postId/edit',
+  loadDummyUser,
+  loadSinglePost,
+  async (ctx) => {
+    await ctx.render('posts/edit', {});
+  }
+);
+
+router.delete(
+  'posts.delete',
+  '/:postId',
+  loadDummyUser,
+  loadSinglePost,
+  async (ctx) => {
+    if (ctx.state.currentUser.id === ctx.state.post.userId) {
+      ctx.state.post.destroy();
+      ctx.redirect('back');
     }
-  });
+  }
+);
 
 module.exports = router;

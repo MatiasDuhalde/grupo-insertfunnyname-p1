@@ -26,7 +26,7 @@ async function validateIntParam(param, ctx, next) {
 }
 
 async function loadDummyUser(ctx, next) {
-  ctx.state.currentUser = await ctx.orm.User.findByPk(201);
+  ctx.state.currentUser = await ctx.orm.User.findByPk(2);
   return next();
 }
 

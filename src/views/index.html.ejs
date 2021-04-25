@@ -1,7 +1,7 @@
 <div class="sunset cards-canvas">
   <main class="cards-list">
     <div class="card">
-      <form action="/posts" enctype="multipart/form-data" method="post">
+      <form action="<%- createPostPath %> " enctype="multipart/form-data" method="post">
         <div class="field">
           <label for="imageLink">Image URL</label>
           <input type="url" name="imageLink" value="" />
@@ -16,21 +16,18 @@
       </form>
     </div>
 
-
-
-
     <% posts.forEach((post) => { %>
       <% const user = users[post.userId] %> 
       
       <div class="card index-post">
         <div class="card__image">
-          <a href="/post/<%= post.id %>">
+          <a href="<%= showPostPath(post.id) %>">
             <img src="<%= post.imageLink %>"/>
           </a>
         </div>
         <div class="card__info">
           <div class="card__info__user">
-            <a href="/profile/<%= post.userId %> "
+            <a href="<%= showUserPath %>"
               ><img
                 class="poster-user-picture"
                 src="<%= user.avatarLink %> "
@@ -51,6 +48,17 @@
         <div class="card__stats">
           <p class="card__stats__title">Date</p>
           <h5 class="card__stats__info"><%= post.createdAt.toLocaleString('ISO') %> </h5>
+        </div>
+        <div class="card__stats">
+        </div>
+        <div class="card__stats">
+          <a class="card__stats__title">Edit post</a>
+        </div>
+        <div class="card__stats">
+          <form action="<%- deletePostPath(post.id) %>" method="POST">
+            <input type="hidden" name="_method" value="delete" />
+            <input type="submit" value="Delete post" />
+          </form>
         </div>
       </div>
     <% }) %> 

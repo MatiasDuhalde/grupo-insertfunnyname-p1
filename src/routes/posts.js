@@ -1,4 +1,5 @@
 const KoaRouter = require('koa-router');
+const { render } = require('node-sass');
 const { validate } = require('webpack');
 
 const router = new KoaRouter();
@@ -14,36 +15,73 @@ async function getPostsUsers(ctx, posts) {
   return users;
 }
 
+async function validateIntParam(param, ctx, next) {
+  param = parseInt(param);
+  if (param < 1 || isNaN(param)) return (ctx.status = 404);
+  next();
+}
+
 async function loadDummyUser(ctx, next) {
   ctx.state.user = await ctx.orm.User.findByPk(201);
   next();
 }
 
-router.get('posts.index', '/', async (ctx) => {
-  const posts = await ctx.orm.Post.findAll({
-    limit: 20,
-    order: [['createdAt', 'DESC']],
+async function renderIndexPage(ctx) {
+  const users = await getPostsUsers(ctx, ctx.state.posts);
+  await ctx.render('index', {
+    posts: ctx.state.posts,
+    users,
+    createPostPath: ctx.router.url('posts.create'),
+    deletePostPath: (postId) => ctx.router.url('posts.delete', { postId }),
+    showPostPath: (postId) => ctx.router.url('posts.show', { postId }),
+    showUserPath: ctx.router.url('users.show'),
   });
-  const users = await getPostsUsers(ctx, posts);
-  await ctx.render('index', { posts, users });
-});
+}
 
-router
-  .param('page', (page, ctx, next) => {
-    page = parseInt(page);
-    if (page < 1 || isNaN(page)) return (ctx.status = 404);
-    return next();
-  })
-  .get('posts.page', '/:page', async (ctx) => {
+async function renderPostPage(ctx) {
+  const users = await getPostsUsers(ctx, ctx.state.posts);
+  await ctx.render('posts/show', {});
+}
+
+router.get(
+  'posts.index',
+  '/',
+  loadDummyUser,
+  async (ctx, next) => {
+    ctx.state.posts = await ctx.orm.Post.findAll({
+      limit: 20,
+      order: [['createdAt', 'DESC']],
+    });
+    next();
+  },
+  renderIndexPage
+);
+
+router.param('page', validateIntParam).get(
+  'posts.page',
+  '/page/:page',
+  loadDummyUser,
+  async (ctx, next) => {
     const { page } = ctx.params;
-    const posts = await ctx.orm.Post.findAll({
+    ctx.state.posts = await ctx.orm.Post.findAll({
       offset: (page - 1) * 20,
       limit: 20,
       order: [['createdAt', 'DESC']],
     });
-    const users = await getPostsUsers(ctx, posts);
-    await ctx.render('index', { posts, users });
-  });
+    next();
+  },
+  renderIndexPage
+);
+
+router.param('postId', validateIntParam).get(
+  'posts.show',
+  '/:postId',
+  loadDummyUser,
+  async (ctx, next) => {
+    next();
+  },
+  renderPostPage
+);
 
 router.post('posts.create', '/', loadDummyUser, async (ctx) => {
   try {
@@ -55,5 +93,17 @@ router.post('posts.create', '/', loadDummyUser, async (ctx) => {
     ctx.flashMessage.error = validationError.errors;
   }
 });
+
+router
+  .param('postId', validateIntParam)
+  .delete('posts.delete', '/:postId', loadDummyUser, async (ctx) => {
+    const { postId } = ctx.params;
+    postId = parseInt(postId);
+    const post = await ctx.orm.Post.findByPk(postId);
+    if (ctx.state.user.id === post.userId) {
+      post.destroy();
+      ctx.redirect(ctx.router.url('posts.page', { page: ctx.params.page }));
+    }
+  });
 
 module.exports = router;

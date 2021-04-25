@@ -18,12 +18,12 @@ async function getPostsUsers(ctx, posts) {
 async function validateIntParam(param, ctx, next) {
   param = parseInt(param);
   if (param < 1 || isNaN(param)) return (ctx.status = 404);
-  next();
+  return next();
 }
 
 async function loadDummyUser(ctx, next) {
-  ctx.state.user = await ctx.orm.User.findByPk(201);
-  next();
+  ctx.state.user = await ctx.orm.User.findByPk(202);
+  return next();
 }
 
 async function renderIndexPage(ctx) {
@@ -52,7 +52,7 @@ router.get(
       limit: 20,
       order: [['createdAt', 'DESC']],
     });
-    next();
+    return next();
   },
   renderIndexPage
 );
@@ -68,7 +68,7 @@ router.param('page', validateIntParam).get(
       limit: 20,
       order: [['createdAt', 'DESC']],
     });
-    next();
+    return next();
   },
   renderIndexPage
 );
@@ -78,7 +78,7 @@ router.param('postId', validateIntParam).get(
   '/:postId',
   loadDummyUser,
   async (ctx, next) => {
-    next();
+    return next();
   },
   renderPostPage
 );

@@ -78,11 +78,11 @@ router.patch('posts.patch', '/:postId/edit', loadCurrentUser, loadSinglePost, as
     ctx.state.post.imageLink = imageLink;
     ctx.state.post.body = body;
     await ctx.state.post.save();
-    return ctx.redirect(ctx.router.url('posts.index'));
+    return ctx.redirect(ctx.router.url('posts.show', { postId: ctx.state.post.id }));
   } catch (validationError) {
     ctx.flashMessage.error = validationError.errors;
     // TODO: Process error
-    return ctx.redirect(ctx.router.url('posts.index'));
+    return ctx.redirect(ctx.router.url('posts.edit', { postId: ctx.state.post.id }));
   }
 });
 

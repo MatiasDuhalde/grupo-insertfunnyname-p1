@@ -16,6 +16,7 @@ router.get(
     ctx.state.posts = await ctx.orm.Post.findAll({
       limit: 20,
       order: [['createdAt', 'DESC']],
+      include: ['User'],
     });
     return next();
   },
@@ -32,6 +33,7 @@ router.get(
       offset: (page - 1) * 20,
       limit: 20,
       order: [['createdAt', 'DESC']],
+      include: ['User'],
     });
     return next();
   },

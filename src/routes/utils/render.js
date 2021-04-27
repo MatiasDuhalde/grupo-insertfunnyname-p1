@@ -1,12 +1,8 @@
-const { getPostsUsers, getPostUser, getSingleUser } = require('./queries');
-
 module.exports = {
   renderIndexPage: async (ctx) => {
-    const users = await getPostsUsers(ctx, ctx.state.posts);
-    return ctx.render('index', {
+    await ctx.render('index', {
       currentUser: ctx.state.currentUser,
       posts: ctx.state.posts,
-      users,
       page: +ctx.params.page || 1,
       createPostPath: ctx.router.url('posts.create'),
       deletePostPath: (postId) => ctx.router.url('posts.delete', { postId }),
@@ -17,11 +13,9 @@ module.exports = {
     });
   },
   renderPostPage: async (ctx) => {
-    const user = await getPostUser(ctx, ctx.state.post);
-    return ctx.render('posts/show', {
+    await ctx.render('posts/show', {
       currentUser: ctx.state.currentUser,
       post: ctx.state.post,
-      user,
       deletePostPath: (postId) => ctx.router.url('posts.delete', { postId }),
       showPostPath: (postId) => ctx.router.url('posts.show', { postId }),
       editPostPath: (postId) => ctx.router.url('posts.edit', { postId }),
@@ -36,10 +30,9 @@ module.exports = {
     });
   },
   renderUserPage: async (ctx) => {
-    const user = await getSingleUser(ctx, +ctx.params.userId);
     await ctx.render('users/index', {
       currentUser: ctx.state.currentUser,
-      user,
+      user: ctx.state.user,
       showUserPath: (userId) => ctx.router.url('users.show', { userId }),
       showUserCreatedPostsPath: (userId) => ctx.router.url('users.show.posts', { userId }),
       showUserLikedPostsPath: (userId) => ctx.router.url('users.show.liked', { userId }),

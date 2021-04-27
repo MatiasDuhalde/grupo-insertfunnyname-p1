@@ -8,7 +8,7 @@ const router = new KoaRouter();
 router.param('userId', validateIntParam);
 router.param('page', validateIntParam);
 
-router.get('users.show', '/:userId', loadCurrentUser, renderUserPage);
+router.get('users.show', '/:userId', loadCurrentUser, loadSingleUser, renderUserPage);
 
 router.get(
   'users.show.posts',

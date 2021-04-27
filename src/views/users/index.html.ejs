@@ -1,0 +1,48 @@
+<div class="sunset cards-canvas">
+  <main class="cards-list">
+    <div class="card profile-top">
+      <div class="card__image">
+        <img
+          src="<%= user.coverLink %> "
+          alt="<%= `${user.firstName} Landscape` %>"
+        />
+      </div>
+      <div class="card__info">
+        <div class="card__info__extra">
+          <div class="card__info__user">
+            <img
+              src="<%= user.avatarLink %> "
+              alt="<%= `${user.firstName} Avatar` %>"
+            />
+            <h2>@<%= `${user.firstName} ${user.lastName}` %> </h2>
+          </div>
+        </div>
+      </div>
+      <div class="card__stats">
+        <p class="card__stats__title">First Name</p>
+        <h5 class="card__stats__info"><%= user.firstName %> </h5>
+      </div>
+      <div class="card__stats">
+        <p class="card__stats__title">Last Name</p>
+        <h5 class="card__stats__info"><%= user.lastName %> </h5>
+      </div>
+      <div class="card__stats">
+        <p class="card__stats__title">Email</p>
+        <h5 class="card__stats__info"><%= user.email %> </h5>
+      </div>
+      <div class="card__stats">
+        <p class="card__stats__title">Joined</p>
+        <h5 class="card__stats__info"><%= user.createdAt.toLocaleString('ISO') %> </h5>
+      </div>
+      <div class="card__stats">
+        <p class="card__stats__title">Posts</p>
+        <div>
+          <a class="card__stats__info" href="<%=  %> ">Created Posts</a>
+        </div>
+        <div>
+          <a class="card__stats__info" href="<%=  %> ">Liked Posts</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,6 +1,6 @@
 const KoaRouter = require('koa-router');
 const { validateIntParam } = require('./utils/utils');
-const { loadDummyUser, loadSinglePost } = require('./utils/queries');
+const { loadCurrentUser, loadSinglePost } = require('./utils/queries');
 const { renderIndexPage, renderPostPage, renderPostEditPage } = require('./utils/render');
 
 const router = new KoaRouter();
@@ -11,7 +11,7 @@ router.param('postId', validateIntParam);
 router.get(
   'posts.index',
   '/',
-  loadDummyUser,
+  loadCurrentUser,
   async (ctx, next) => {
     ctx.state.posts = await ctx.orm.Post.findAll({
       limit: 20,
@@ -25,7 +25,7 @@ router.get(
 router.get(
   'posts.page',
   '/page/:page',
-  loadDummyUser,
+  loadCurrentUser,
   async (ctx, next) => {
     const { page } = ctx.params;
     ctx.state.posts = await ctx.orm.Post.findAll({
@@ -38,9 +38,9 @@ router.get(
   renderIndexPage,
 );
 
-router.get('posts.show', '/:postId', loadDummyUser, loadSinglePost, renderPostPage);
+router.get('posts.show', '/:postId', loadCurrentUser, loadSinglePost, renderPostPage);
 
-router.post('posts.create', '/', loadDummyUser, async (ctx) => {
+router.post('posts.create', '/', loadCurrentUser, async (ctx) => {
   try {
     const { imageLink, body } = ctx.request.body;
     const userId = ctx.state.currentUser.id;
@@ -56,7 +56,7 @@ router.post('posts.create', '/', loadDummyUser, async (ctx) => {
 router.get(
   'posts.edit',
   '/:postId/edit',
-  loadDummyUser,
+  loadCurrentUser,
   loadSinglePost,
   async (ctx, next) => {
     if (ctx.state.currentUser.id !== ctx.state.post.userId) {
@@ -68,7 +68,7 @@ router.get(
   renderPostEditPage,
 );
 
-router.patch('posts.patch', '/:postId/edit', loadDummyUser, loadSinglePost, async (ctx) => {
+router.patch('posts.patch', '/:postId/edit', loadCurrentUser, loadSinglePost, async (ctx) => {
   try {
     if (ctx.state.currentUser.id !== ctx.state.post.userId) {
       ctx.status = 401;
@@ -86,7 +86,7 @@ router.patch('posts.patch', '/:postId/edit', loadDummyUser, loadSinglePost, asyn
   }
 });
 
-router.delete('posts.delete', '/:postId', loadDummyUser, loadSinglePost, async (ctx) => {
+router.delete('posts.delete', '/:postId', loadCurrentUser, loadSinglePost, async (ctx) => {
   if (ctx.state.currentUser.id !== ctx.state.post.userId) {
     ctx.status = 401;
     return ctx.throw(401, 'Unauthorized');

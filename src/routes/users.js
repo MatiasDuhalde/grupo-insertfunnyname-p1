@@ -20,6 +20,7 @@ router.get(
     ctx.state.posts = await ctx.state.user.getPosts({
       limit: 20,
       order: [['createdAt', 'DESC']],
+      include: 'User',
     });
     return next();
   },
@@ -38,11 +39,11 @@ router.get(
       offset: (page - 1) * 20,
       limit: 20,
       order: [['createdAt', 'DESC']],
+      include: 'User',
     });
     return next();
   },
   renderUserQueriedPostsPage,
-  renderUserPage,
 );
 
 router.get(
@@ -52,9 +53,14 @@ router.get(
   loadSingleUser,
   async (ctx, next) => {
     ctx.state.pageAction = 'liked';
+    ctx.state.posts = await ctx.state.user.getLikedPosts({
+      limit: 20,
+      order: [['createdAt', 'DESC']],
+      include: ['User'],
+    });
     return next();
   },
-  renderUserPage,
+  renderUserQueriedPostsPage,
 );
 
 router.get(
@@ -65,9 +71,15 @@ router.get(
   async (ctx, next) => {
     const { page } = ctx.params;
     ctx.state.pageAction = 'liked';
+    ctx.state.posts = await ctx.state.user.getLikedPosts({
+      offset: (page - 1) * 20,
+      limit: 20,
+      order: [['createdAt', 'DESC']],
+      include: ['User'],
+    });
     return next();
   },
-  renderUserPage,
+  renderUserQueriedPostsPage,
 );
 
 module.exports = router;

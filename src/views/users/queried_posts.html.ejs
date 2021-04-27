@@ -11,13 +11,13 @@
         </div>
         <div class="card__info">
           <div class="card__info__user">
-            <a href="<%= showUserPath(user.id) %>"
+            <a href="<%= showUserPath(post.User.id) %>"
               ><img
                 class="poster-user-picture"
-                src="<%= user.avatarLink %> "
+                src="<%= post.User.avatarLink %> "
                 alt="Profile picture"
             /></a>
-            <h3>@<%= `${user.firstName} ${user.lastName}` %></h3>
+            <h3>@<%= `${post.User.firstName} ${post.User.lastName}` %></h3>
           </div>
           <p class="card__info__extra"><%= post.body %> </p>
         </div>

@@ -60,8 +60,8 @@ router.get(
   loadSinglePost,
   async (ctx, next) => {
     if (ctx.state.currentUser.id !== ctx.state.post.userId) {
-      ctx.status = 401;
-      return ctx.throw(401, 'Unauthorized');
+      ctx.status = 403;
+      return ctx.throw(403, 'Forbidden');
     }
     return next();
   },
@@ -71,8 +71,8 @@ router.get(
 router.patch('posts.patch', '/:postId/edit', loadCurrentUser, loadSinglePost, async (ctx) => {
   try {
     if (ctx.state.currentUser.id !== ctx.state.post.userId) {
-      ctx.status = 401;
-      return ctx.throw(401, 'Unauthorized');
+      ctx.status = 403;
+      return ctx.throw(403, 'Forbidden');
     }
     const { imageLink, body } = ctx.request.body;
     ctx.state.post.imageLink = imageLink;
@@ -88,8 +88,8 @@ router.patch('posts.patch', '/:postId/edit', loadCurrentUser, loadSinglePost, as
 
 router.delete('posts.delete', '/:postId', loadCurrentUser, loadSinglePost, async (ctx) => {
   if (ctx.state.currentUser.id !== ctx.state.post.userId) {
-    ctx.status = 401;
-    return ctx.throw(401, 'Unauthorized');
+    ctx.status = 403;
+    return ctx.throw(403, 'Forbidden');
   }
   ctx.state.post.destroy();
   return ctx.redirect('back');

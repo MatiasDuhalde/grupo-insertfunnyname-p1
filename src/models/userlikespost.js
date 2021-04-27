@@ -1,7 +1,7 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class Post extends Model {
+  class UserLikesPost extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,18 +12,25 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.User, {
         foreignKey: 'userId',
       });
-      this.belongsToMany(models.User, {
-        through: 'UserLikesPost',
+      this.belongsTo(models.Post, {
+        foreignKey: 'postId',
       });
     }
   }
-  Post.init(
+  UserLikesPost.init(
     {
-      imageLink: DataTypes.STRING,
-      body: DataTypes.TEXT,
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        unique: 'compositeIndex',
+        validate: {
+          isNumeric: true,
+        },
+      },
+      postId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: 'compositeIndex',
         validate: {
           isNumeric: true,
         },
@@ -31,8 +38,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Post',
+      modelName: 'UserLikesPost',
     },
   );
-  return Post;
+  return UserLikesPost;
 };

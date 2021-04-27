@@ -1,17 +1,7 @@
-'use strict';
-// const bcrypt = require('bcrypt');
-
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    // generateHash(password) {
-    //   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-    // }
-
-    // validPassword(password) {
-    //   return bcrypt.compareSync(password, this.hashedPassword);
-    // }
-
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -48,10 +38,6 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true,
         },
       },
-      // hashedPassword: {
-      //   type: DataTypes.STRING,
-      //   allowNull: false,
-      // },
       avatarLink: {
         type: DataTypes.STRING,
       },
@@ -62,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'User',
-    }
+    },
   );
   return User;
 };

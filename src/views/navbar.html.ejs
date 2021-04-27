@@ -17,15 +17,15 @@
         <ul>
           <% if (true) { // usuario está logeado %>
           <li id="profile-picture-container">
-            <a href="/profile"
+            <a href="<%= showUserPath(currentUser.id) %>"
               ><img
                 id="profile-picture"
-                src="https://i.pinimg.com/originals/e0/5e/06/e05e061bfc4c6e7799de4aac293a8223.png"
+                src="<%= currentUser.avatarLink %> "
                 alt="Profile picture"
             /></a>
           </li>
           <li>
-            <a href="/profile">User Name</a>
+            <a href="<%= showUserPath(currentUser.id) %>"><%= `${currentUser.firstName} ${currentUser.lastName}` %> </a>
           </li>
           <li>
             <a href="/signout">Sign out</a>

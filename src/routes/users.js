@@ -17,15 +17,57 @@ router.get(
   loadSingleUser,
   async (ctx, next) => {
     ctx.state.pageAction = 'created';
+    ctx.state.posts = await ctx.state.user.getPosts({
+      limit: 20,
+      order: [['createdAt', 'DESC']],
+    });
     return next();
   },
   renderUserQueriedPostsPage,
 );
 
-router.get('users.show.posts.page', '/:userId/posts/:page', loadCurrentUser, renderUserPage);
+router.get(
+  'users.show.posts.page',
+  '/:userId/posts/:page',
+  loadCurrentUser,
+  loadSingleUser,
+  async (ctx, next) => {
+    const { page } = ctx.params;
+    ctx.state.pageAction = 'created';
+    ctx.state.posts = await ctx.state.user.getPosts({
+      offset: (page - 1) * 20,
+      limit: 20,
+      order: [['createdAt', 'DESC']],
+    });
+    return next();
+  },
+  renderUserQueriedPostsPage,
+  renderUserPage,
+);
 
-router.get('users.show.liked', '/:userId/liked', loadCurrentUser, renderUserPage);
+router.get(
+  'users.show.liked',
+  '/:userId/liked',
+  loadCurrentUser,
+  loadSingleUser,
+  async (ctx, next) => {
+    ctx.state.pageAction = 'liked';
+    return next();
+  },
+  renderUserPage,
+);
 
-router.get('users.show.liked.page', '/:userId/liked/:page', loadCurrentUser, renderUserPage);
+router.get(
+  'users.show.liked.page',
+  '/:userId/liked/:page',
+  loadCurrentUser,
+  loadSingleUser,
+  async (ctx, next) => {
+    const { page } = ctx.params;
+    ctx.state.pageAction = 'liked';
+    return next();
+  },
+  renderUserPage,
+);
 
 module.exports = router;

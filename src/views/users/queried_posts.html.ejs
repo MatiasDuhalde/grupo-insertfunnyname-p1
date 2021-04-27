@@ -1,7 +1,7 @@
 <div class="sunset cards-canvas">
   <main class="cards-list">
-    <% const postsWord = posts.length != 1 ? 'Posts' : 'Post' %> 
-    <h3><%= `@${user.firstName} ${user.lastName} has ${pageAction} ${posts.length} ${postsWord}` %></h1>
+    <% const postsWord = posts.length != 1 ? 'posts' : 'post' %> 
+    <h3><%= `@${user.firstName} ${user.lastName} ${pageAction} ${postsWord}` %></h1>
     <% posts.forEach((post) => { %>
       <div class="card index-post">
         <div class="card__image">
@@ -57,8 +57,14 @@
     <% }) %>
 
     <div>
+      <% console.log(nextPagePath(user.id, page - 1)) %> 
+      <% if (page > 1) { %>
+        <a href="<%= nextPagePath(user.id, page - 1) %>">Previous page</a>
+      <% } %>
       <p>Page <%= page %></p>
-      <a href="<%= nextPagePath(page + 1) %>">Next page</a>
+      <% if (posts.length) { %>
+        <a href="<%= nextPagePath(user.id, page + 1) %>">Next page</a>
+      <% } %>
     </div>
 
   </main>

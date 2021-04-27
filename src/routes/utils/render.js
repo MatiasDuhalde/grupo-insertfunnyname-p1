@@ -46,17 +46,25 @@ module.exports = {
     });
   },
   renderUserQueriedPostsPage: async (ctx) => {
+    const { pageAction } = ctx.state;
+    const subpath = pageAction === 'liked' ? 'liked' : 'posts';
     await ctx.render('users/queried_posts', {
       currentUser: ctx.state.currentUser,
-      pageAction: ctx.state.pageAction,
-      posts: await ctx.state.user.getPosts(),
+      pageAction,
+      posts: ctx.state.posts,
       user: ctx.state.user,
       page: +ctx.params.page || 1,
       deletePostPath: (postId) => ctx.router.url('posts.delete', { postId }),
       showPostPath: (postId) => ctx.router.url('posts.show', { postId }),
       editPostPath: (postId) => ctx.router.url('posts.edit', { postId }),
       showUserPath: (userId) => ctx.router.url('users.show', { userId }),
-      nextPagePath: (page) => ctx.router.url('posts.page', { page }),
+      nextPagePath: (userId, page) => {
+        const path = `users.show.${subpath}.page`;
+        return ctx.router.url(path, {
+          userId,
+          page,
+        });
+      },
     });
   },
 };

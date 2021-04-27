@@ -1,20 +1,14 @@
 <div class="sunset cards-canvas">
   <main class="cards-list">
-    <div class="card index-post">
+    <div class="card form-card">
+      <h2>Create post</h2>
       <form action="<%= createPostPath %> " enctype="multipart/form-data" method="post">
-        <div class="card__info__extra">
-          <label for="imageLink">Image URL</label>
-          <input type="url" name="imageLink" value="" />
-        </div>
-        <div class="card__info"> 
-          <!-- <textarea class="form-control status-box" rows="2" placeholder="What's on your mind?"></textarea> -->
-          <label for="body">Body</label> -->
-          <input type="text" name="body" value="" rows="2" placeholder="What's on your mind?"/> 
-        </div>
-              
-        <div class="field">
-          <input type="submit" name="create" value="Post" />
-        </div>
+        <label for="imageLink">Image URL</label>
+        <input type="url" name="imageLink" value="" />
+        <!-- <textarea class="form-control status-box" rows="2" placeholder="What's on your mind?"></textarea> -->
+        <label for="body">Say something!</label>
+        <textarea name="body" value="" placeholder="What's on your mind?"></textarea> 
+        <button class="submit-button" type="submit">Post</button>
       </form>
     </div>
 

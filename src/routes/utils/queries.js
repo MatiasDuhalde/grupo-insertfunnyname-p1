@@ -17,6 +17,13 @@ const loadCurrentUser = async (ctx, next) => {
   return next();
 };
 
+const loadSingleUser = async (ctx, next) => {
+  const { userId } = ctx.params;
+  ctx.state.user = await ctx.orm.User.findByPk(userId);
+  if (!ctx.state.user) return ctx.redirect(ctx.router.url('posts.index'));
+  return next();
+};
+
 const loadSinglePost = async (ctx, next) => {
   const { postId } = ctx.params;
   ctx.state.post = await ctx.orm.Post.findByPk(+postId);
@@ -29,5 +36,6 @@ module.exports = {
   getPostsUsers,
   getSingleUser,
   loadCurrentUser,
+  loadSingleUser,
   loadSinglePost,
 };

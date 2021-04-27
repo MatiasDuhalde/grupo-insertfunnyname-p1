@@ -31,6 +31,7 @@ module.exports = {
   renderPostEditPage: async (ctx) => {
     await ctx.render('posts/edit', {
       post: ctx.state.post,
+      showUserPath: (userId) => ctx.router.url('users.show', { userId }),
       patchPostPath: (postId) => ctx.router.url('posts.patch', { postId }),
     });
   },
@@ -40,6 +41,22 @@ module.exports = {
       currentUser: ctx.state.currentUser,
       user,
       showUserPath: (userId) => ctx.router.url('users.show', { userId }),
+      showUserCreatedPostsPath: (userId) => ctx.router.url('users.show.posts', { userId }),
+      showUserLikedPostsPath: (userId) => ctx.router.url('users.show.liked', { userId }),
+    });
+  },
+  renderUserQueriedPostsPage: async (ctx) => {
+    await ctx.render('users/queried_posts', {
+      currentUser: ctx.state.currentUser,
+      pageAction: ctx.state.pageAction,
+      posts: await ctx.state.user.getPosts(),
+      user: ctx.state.user,
+      page: +ctx.params.page || 1,
+      deletePostPath: (postId) => ctx.router.url('posts.delete', { postId }),
+      showPostPath: (postId) => ctx.router.url('posts.show', { postId }),
+      editPostPath: (postId) => ctx.router.url('posts.edit', { postId }),
+      showUserPath: (userId) => ctx.router.url('users.show', { userId }),
+      nextPagePath: (page) => ctx.router.url('posts.page', { page }),
     });
   },
 };

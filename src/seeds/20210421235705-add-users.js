@@ -1,8 +1,7 @@
-'use strict';
 const { generateRandomUsers } = require('./utils/users');
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async (queryInterface) => {
     /**
      * Add seed commands here.
      *
@@ -15,7 +14,7 @@ module.exports = {
     await queryInterface.bulkInsert('Users', generateRandomUsers(100), {});
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     /**
      * Add commands to revert seed here.
      *

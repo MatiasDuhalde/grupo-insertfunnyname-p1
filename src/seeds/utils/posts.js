@@ -15,7 +15,7 @@ const generateRandomPost = () => {
 module.exports = {
   generateRandomPosts: (n = 1) => {
     const posts = [];
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n; i += 1) {
       posts.push(generateRandomPost());
     }
     return posts;

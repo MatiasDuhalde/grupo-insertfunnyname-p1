@@ -1,8 +1,7 @@
-'use strict';
 const { generateRandomPosts } = require('./utils/posts');
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async (queryInterface) => {
     /**
      * Add seed commands here.
      *
@@ -12,21 +11,20 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    const users = await queryInterface.sequelize.query(
-      `SELECT id from "Users";`
-    );
+    const users = await queryInterface.sequelize.query('SELECT id from "Users";');
 
     const randomPosts = generateRandomPosts(1000);
     const userIds = users[0];
 
-    randomPosts.forEach((post) => {
-      post.userId = userIds[Math.floor(Math.random() * userIds.length)].id;
-    });
+    const newPosts = randomPosts.map((post) => ({
+      ...post,
+      userId: userIds[Math.floor(Math.random() * userIds.length)].id,
+    }));
 
-    await queryInterface.bulkInsert('Posts', randomPosts, {});
+    await queryInterface.bulkInsert('Posts', newPosts, {});
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     /**
      * Add commands to revert seed here.
      *

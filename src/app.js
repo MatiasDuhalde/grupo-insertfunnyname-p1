@@ -60,8 +60,8 @@ app.use(
     {
       maxAge: 14 * 24 * 60 * 60 * 1000, // 2 weeks
     },
-    app
-  )
+    app,
+  ),
 );
 
 // flash messages support
@@ -72,14 +72,11 @@ app.use(
   koaBody({
     multipart: true,
     keepExtensions: true,
-  })
+  }),
 );
 
 app.use((ctx, next) => {
-  ctx.request.method = override.call(
-    ctx,
-    ctx.request.body.fields || ctx.request.body
-  );
+  ctx.request.method = override.call(ctx, ctx.request.body.fields || ctx.request.body);
   return next();
 });
 

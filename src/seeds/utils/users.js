@@ -17,7 +17,7 @@ const generateRandomUser = () => {
 module.exports = {
   generateRandomUsers: (n = 1) => {
     const users = [];
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n; i += 1) {
       users.push(generateRandomUser());
     }
     return users;

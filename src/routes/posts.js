@@ -1,68 +1,9 @@
 const KoaRouter = require('koa-router');
+const { validateIntParam } = require('./utils/utils');
+const { loadCurrentUser, loadSinglePost } = require('./utils/queries');
+const { renderIndexPage, renderPostPage, renderPostEditPage } = require('./utils/render');
 
 const router = new KoaRouter();
-
-async function getPostUser(ctx, post) {
-  return await ctx.orm.User.findByPk(post.userId);
-}
-
-async function getPostsUsers(ctx, posts) {
-  const users = {};
-  for (const post of posts) {
-    if (users[post.userId] === undefined) {
-      const user = await getPostUser(ctx, post);
-      users[user.id] = user;
-    }
-  }
-  return users;
-}
-
-async function validateIntParam(param, ctx, next) {
-  param = parseInt(param);
-  if (param < 1 || isNaN(param)) return (ctx.status = 404);
-  return next();
-}
-
-async function loadDummyUser(ctx, next) {
-  ctx.state.currentUser = await ctx.orm.User.findByPk(2);
-  return next();
-}
-
-async function loadSinglePost(ctx, next) {
-  const { postId } = ctx.params;
-  ctx.state.post = await ctx.orm.Post.findByPk(parseInt(postId));
-  if (!ctx.state.post) return ctx.redirect(ctx.router.url('posts.index'));
-  return next();
-}
-
-async function renderIndexPage(ctx) {
-  const users = await getPostsUsers(ctx, ctx.state.posts);
-  await ctx.render('index', {
-    currentUser: ctx.state.currentUser,
-    posts: ctx.state.posts,
-    users,
-    page: parseInt(ctx.params.page) || 1,
-    createPostPath: ctx.router.url('posts.create'),
-    deletePostPath: (postId) => ctx.router.url('posts.delete', { postId }),
-    showPostPath: (postId) => ctx.router.url('posts.show', { postId }),
-    editPostPath: (postId) => ctx.router.url('posts.edit', { postId }),
-    showUserPath: ctx.router.url('users.show'),
-    nextPagePath: (page) => ctx.router.url('posts.page', { page }),
-  });
-}
-
-async function renderPostPage(ctx) {
-  const user = await getPostUser(ctx, ctx.state.post);
-  await ctx.render('posts/show', {
-    currentUser: ctx.state.currentUser,
-    post: ctx.state.post,
-    user,
-    deletePostPath: (postId) => ctx.router.url('posts.delete', { postId }),
-    showPostPath: (postId) => ctx.router.url('posts.show', { postId }),
-    editPostPath: (postId) => ctx.router.url('posts.edit', { postId }),
-    showUserPath: ctx.router.url('users.show'),
-  });
-}
 
 router.param('page', validateIntParam);
 router.param('postId', validateIntParam);
@@ -70,7 +11,7 @@ router.param('postId', validateIntParam);
 router.get(
   'posts.index',
   '/',
-  loadDummyUser,
+  loadCurrentUser,
   async (ctx, next) => {
     ctx.state.posts = await ctx.orm.Post.findAll({
       limit: 20,
@@ -78,13 +19,13 @@ router.get(
     });
     return next();
   },
-  renderIndexPage
+  renderIndexPage,
 );
 
 router.get(
   'posts.page',
   '/page/:page',
-  loadDummyUser,
+  loadCurrentUser,
   async (ctx, next) => {
     const { page } = ctx.params;
     ctx.state.posts = await ctx.orm.Post.findAll({
@@ -94,76 +35,64 @@ router.get(
     });
     return next();
   },
-  renderIndexPage
+  renderIndexPage,
 );
 
-router.get(
-  'posts.show',
-  '/:postId',
-  loadDummyUser,
-  loadSinglePost,
-  renderPostPage
-);
+router.get('posts.show', '/:postId', loadCurrentUser, loadSinglePost, renderPostPage);
 
-router.post('posts.create', '/', loadDummyUser, async (ctx) => {
+router.post('posts.create', '/', loadCurrentUser, async (ctx) => {
   try {
     const { imageLink, body } = ctx.request.body;
     const userId = ctx.state.currentUser.id;
-    const post = ctx.orm.Post.create({ imageLink, body, userId });
-    ctx.redirect(ctx.router.url('posts.index'));
+    ctx.orm.Post.create({ imageLink, body, userId });
+    return ctx.redirect(ctx.router.url('posts.index'));
   } catch (validationError) {
     ctx.flashMessage.error = validationError.errors;
+    // TODO: Process error
+    return ctx.redirect(ctx.router.url('posts.index'));
   }
 });
 
 router.get(
   'posts.edit',
   '/:postId/edit',
-  loadDummyUser,
+  loadCurrentUser,
   loadSinglePost,
-  async (ctx) => {
+  async (ctx, next) => {
     if (ctx.state.currentUser.id !== ctx.state.post.userId) {
-      return (ctx.status = 404);
+      ctx.status = 403;
+      return ctx.throw(403, 'Forbidden');
     }
-    await ctx.render('posts/edit', {
-      post: ctx.state.post,
-      patchPostPath: (postId) => ctx.router.url('posts.patch', { postId }),
-    });
-  }
+    return next();
+  },
+  renderPostEditPage,
 );
 
-router.patch(
-  'posts.patch',
-  '/:postId/edit',
-  loadDummyUser,
-  loadSinglePost,
-  async (ctx) => {
-    try {
-      if (ctx.state.currentUser.id !== ctx.state.post.userId) {
-        return (ctx.status = 404);
-      }
-      const { imageLink, body } = ctx.request.body;
-      ctx.state.post.imageLink = imageLink;
-      ctx.state.post.body = body;
-      await ctx.state.post.save();
-      ctx.redirect(ctx.router.url('posts.index'));
-    } catch (validationError) {
-      ctx.flashMessage.error = validationError.errors;
+router.patch('posts.patch', '/:postId/edit', loadCurrentUser, loadSinglePost, async (ctx) => {
+  try {
+    if (ctx.state.currentUser.id !== ctx.state.post.userId) {
+      ctx.status = 403;
+      return ctx.throw(403, 'Forbidden');
     }
+    const { imageLink, body } = ctx.request.body;
+    ctx.state.post.imageLink = imageLink;
+    ctx.state.post.body = body;
+    await ctx.state.post.save();
+    return ctx.redirect(ctx.router.url('posts.show', { postId: ctx.state.post.id }));
+  } catch (validationError) {
+    ctx.flashMessage.error = validationError.errors;
+    // TODO: Process error
+    return ctx.redirect(ctx.router.url('posts.edit', { postId: ctx.state.post.id }));
   }
-);
+});
 
-router.delete(
-  'posts.delete',
-  '/:postId',
-  loadDummyUser,
-  loadSinglePost,
-  async (ctx) => {
-    if (ctx.state.currentUser.id === ctx.state.post.userId) {
-      ctx.state.post.destroy();
-      ctx.redirect('back');
-    }
+router.delete('posts.delete', '/:postId', loadCurrentUser, loadSinglePost, async (ctx) => {
+  if (ctx.state.currentUser.id !== ctx.state.post.userId) {
+    ctx.status = 403;
+    return ctx.throw(403, 'Forbidden');
   }
-);
+  ctx.state.post.destroy();
+  return ctx.redirect('back');
+});
 
 module.exports = router;

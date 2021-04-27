@@ -1,24 +1,8 @@
 <div class="sunset cards-canvas">
   <main class="cards-list">
-    <div class="card">
-      <form action="<%= createPostPath %> " enctype="multipart/form-data" method="post">
-        <div class="field">
-          <label for="imageLink">Image URL</label>
-          <input type="url" name="imageLink" value="" />
-        </div>
-        <div class="field">
-          <label for="body">Body</label>
-          <input type="text" name="body" value="" />
-        </div>
-        <div class="field">
-          <input type="submit" name="create" value="Post" />
-        </div>
-      </form>
-    </div>
-
+    <% const postsWord = posts.length != 1 ? 'posts' : 'post' %> 
+    <h3><%= `@${user.firstName} ${user.lastName} ${pageAction} ${postsWord}` %></h1>
     <% posts.forEach((post) => { %>
-      <% const user = users[post.userId] %> 
-      
       <div class="card index-post">
         <div class="card__image">
           <a href="<%= showPostPath(post.id) %>">
@@ -67,28 +51,22 @@
               </form>
             </div>
           </div>
-         
+          
         <% } %>
       </div>
     <% }) %>
+
     <div>
+      <% console.log(nextPagePath(user.id, page - 1)) %> 
       <% if (page > 1) { %>
-        <a href="<%= nextPagePath(page - 1) %>">Previous page</a>
+        <a href="<%= nextPagePath(user.id, page - 1) %>">Previous page</a>
       <% } %>
       <p>Page <%= page %></p>
       <% if (posts.length) { %>
-        <a href="<%= nextPagePath(page + 1) %>">Next page</a>
+        <a href="<%= nextPagePath(user.id, page + 1) %>">Next page</a>
       <% } %>
     </div>
 
   </main>
-  <aside id="sidebar">
-    <p class="sidebar-header">Cool stuff and such</p>
-    <p>HOLAA</p>
-    <p>HOLAA</p>
-    <p>HOLAA</p>
-    <p>HOLAA</p>
-    <p>HOLAA</p>
-    <p>HOLAA</p>
-  </aside>
 </div>
+  

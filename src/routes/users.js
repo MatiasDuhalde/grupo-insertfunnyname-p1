@@ -19,25 +19,13 @@ router.get(
     ctx.state.pageAction = 'created';
     return next();
   },
-  async (ctx, next) => {
-    console.log('3');
-    console.log('3');
-    console.log('3');
-    return next();
-  },
   renderUserQueriedPostsPage,
-  async (ctx, next) => {
-    console.log('4');
-    console.log('4');
-    console.log('4');
-    return next();
-  },
 );
 
-// router.get('users.show.posts.page', '/:userId/posts/:page', loadCurrentUser, renderUserPage);
+router.get('users.show.posts.page', '/:userId/posts/:page', loadCurrentUser, renderUserPage);
 
-// router.get('users.show.liked', '/:userId/liked', loadCurrentUser, renderUserPage);
+router.get('users.show.liked', '/:userId/liked', loadCurrentUser, renderUserPage);
 
-// router.get('users.show.liked.page', '/:userId/liked/:page', loadCurrentUser, renderUserPage);
+router.get('users.show.liked.page', '/:userId/liked/:page', loadCurrentUser, renderUserPage);
 
 module.exports = router;

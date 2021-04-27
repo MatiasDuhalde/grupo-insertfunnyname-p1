@@ -74,13 +74,13 @@
         <% } %>
       </div>
     <% }) %>
-    <div>
+    <div id= "page-buttons">
       <% if (page > 1) { %>
-        <a href="<%= nextPagePath(page - 1) %>">Previous page</a>
+        <a class="submit-button" href="<%= nextPagePath(page - 1) %>">Previous page</a>
       <% } %>
       <p>Page <%= page %></p>
       <% if (posts.length) { %>
-        <a href="<%= nextPagePath(page + 1) %>">Next page</a>
+        <a class="submit-button" href="<%= nextPagePath(page + 1) %>">Next page</a>
       <% } %>
     </div>
 

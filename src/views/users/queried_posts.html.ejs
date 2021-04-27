@@ -63,14 +63,13 @@
       </div>
     <% }) %>
 
-    <div>
-      <% console.log(nextPagePath(user.id, page - 1)) %> 
+    <div id= "page-buttons">
       <% if (page > 1) { %>
-        <a href="<%= nextPagePath(user.id, page - 1) %>">Previous page</a>
+        <a class="submit-button" href="<%= nextPagePath(user.id, page - 1) %>">Previous page</a>
       <% } %>
       <p>Page <%= page %></p>
       <% if (posts.length) { %>
-        <a href="<%= nextPagePath(user.id, page + 1) %>">Next page</a>
+        <a class="submit-button" href="<%= nextPagePath(user.id, page + 1) %>">Next page</a>
       <% } %>
     </div>
 

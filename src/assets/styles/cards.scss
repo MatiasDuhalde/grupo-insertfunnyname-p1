@@ -360,3 +360,19 @@ main {
 		}
 	}
 }
+
+#page-buttons {
+  width: 50vw;
+  min-width: 600px;
+  display:flex;
+  p {
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  a {
+    align-self: center;
+    text-decoration: none;
+  }
+}

@@ -71,10 +71,14 @@
         <% } %>
       </div>
     <% }) %>
-    
     <div>
+      <% if (page > 1) { %>
+        <a href="<%= nextPagePath(page - 1) %>">Previous page</a>
+      <% } %>
       <p>Page <%= page %></p>
-      <a href="<%= nextPagePath(page + 1) %>">Next page</a>
+      <% if (posts.length) { %>
+        <a href="<%= nextPagePath(page + 1) %>">Next page</a>
+      <% } %>
     </div>
 
   </main>

@@ -101,6 +101,21 @@ main {
   }
 }
 
+.form-card {
+  width: 50vw;
+  min-width: 600px;
+  display: flex;
+  padding: 20px;
+  margin-bottom: 40px;
+  box-sizing: border-box;
+  flex-direction: column;
+  form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+}
+
 .index-post {
   width: 50vw;
   min-width: 600px;
@@ -265,4 +280,83 @@ main {
       margin-bottom: 10px;
     }
   }
+}
+
+.submit-button{
+  outline: none;
+	width: 100%;
+	text-align: center;
+	display: inline-block;
+	border: none;
+	font: 500 16px/1 "Poppins", sans-serif;
+	padding: 20px;
+	cursor: pointer;
+	border-radius: var(--borderRadius);
+	background: var(--primaryColor);
+	color: var(--backgroundColor);
+	position: relative;
+	top: 0;
+	transition: 0.2s ease;
+	&:hover,
+	&.hover {
+		top: -3px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+	}
+	&:active,
+	&.active {
+		background: var(--primaryShade4);
+		outline: none;
+		box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+		top: 0;
+	}
+	&.disabled {
+		opacity: 0.4;
+		user-select: none;
+		pointer-events: none;
+	}
+	&.medium {
+		padding: 15px 18px;
+		width: auto;
+		margin-right: 20px;
+		margin-bottom: 20px;
+	}
+	&.small {
+		padding: 10px 12px;
+		width: auto;
+		font-size: 14px;
+		font-weight: 500;
+	}
+	&.secondary {
+		background: var(--secondaryColor);
+		&:active,
+		&:focus,
+		&.active {
+			background: var(--secondaryShade4);
+			outline: none;
+		}
+	}
+	&.accent {
+		background: var(--accentColor);
+		&:active,
+		&:focus,
+		&.active {
+			background: var(--accentShade4);
+		}
+	}
+	&.accent2 {
+		background: var(--accent2Color);
+		&:active,
+		&:focus,
+		&.active {
+			background: var(--accent2Shade4);
+		}
+	}
+	&.accent3 {
+		background: var(--accent3Color);
+		&:active,
+		&:focus,
+		&.active {
+			background: var(--accent3Shade4);
+		}
+	}
 }

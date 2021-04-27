@@ -97,4 +97,24 @@ router.delete('posts.delete', '/:postId', loadCurrentUser, loadSinglePost, async
   return ctx.redirect('back');
 });
 
+router.post('posts.like', '/:postId', loadCurrentUser, loadSinglePost, async (ctx) => {
+  try {
+    ctx.state.currentUser.addLikedPost(ctx.state.post);
+    return ctx.redirect('back');
+  } catch (validationError) {
+    ctx.flashMessage.error = validationError.errors;
+    return ctx.redirect('back');
+  }
+});
+
+router.post('posts.unlike', '/:postId', loadCurrentUser, loadSinglePost, async (ctx) => {
+  try {
+    ctx.state.currentUser.removeLikedPost(ctx.state.post);
+    return ctx.redirect('back');
+  } catch (validationError) {
+    ctx.flashMessage.error = validationError.errors;
+    return ctx.redirect('back');
+  }
+});
+
 module.exports = router;

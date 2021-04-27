@@ -10,6 +10,8 @@ module.exports = {
       editPostPath: (postId) => ctx.router.url('posts.edit', { postId }),
       showUserPath: (userId) => ctx.router.url('users.show', { userId }),
       nextPagePath: (page) => ctx.router.url('posts.page', { page }),
+      likePostPath: (page) => ctx.router.url('posts.like', { page }),
+      unlikePostPath: (page) => ctx.router.url('posts.unlike', { page }),
     });
   },
   renderPostPage: async (ctx) => {
@@ -20,6 +22,8 @@ module.exports = {
       showPostPath: (postId) => ctx.router.url('posts.show', { postId }),
       editPostPath: (postId) => ctx.router.url('posts.edit', { postId }),
       showUserPath: (userId) => ctx.router.url('users.show', { userId }),
+      likePostPath: (page) => ctx.router.url('posts.like', { page }),
+      unlikePostPath: (page) => ctx.router.url('posts.unlike', { page }),
     });
   },
   renderPostEditPage: async (ctx) => {
@@ -58,6 +62,8 @@ module.exports = {
           page,
         });
       },
+      likePostPath: (page) => ctx.router.url('posts.like', { page }),
+      unlikePostPath: (page) => ctx.router.url('posts.unlike', { page }),
     });
   },
 };

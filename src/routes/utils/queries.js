@@ -1,4 +1,6 @@
-const getPostUser = async (ctx, post) => ctx.orm.User.findByPk(post.userId);
+const getSingleUser = async (ctx, userId) => ctx.orm.User.findByPk(userId);
+
+const getPostUser = async (ctx, post) => getSingleUser(ctx, post.userId);
 
 const getPostsUsers = async (ctx, posts) => {
   const promises = [];
@@ -10,7 +12,7 @@ const getPostsUsers = async (ctx, posts) => {
   return users;
 };
 
-const loadDummyUser = async (ctx, next) => {
+const loadCurrentUser = async (ctx, next) => {
   ctx.state.currentUser = await ctx.orm.User.findByPk(2);
   return next();
 };
@@ -25,6 +27,7 @@ const loadSinglePost = async (ctx, next) => {
 module.exports = {
   getPostUser,
   getPostsUsers,
-  loadDummyUser,
+  getSingleUser,
+  loadCurrentUser,
   loadSinglePost,
 };

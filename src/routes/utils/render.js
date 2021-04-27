@@ -1,4 +1,4 @@
-const { getPostsUsers, getPostUser } = require('./queries');
+const { getPostsUsers, getPostUser, getSingleUser } = require('./queries');
 
 module.exports = {
   renderIndexPage: async (ctx) => {
@@ -35,7 +35,10 @@ module.exports = {
     });
   },
   renderUserPage: async (ctx) => {
+    const user = await getSingleUser(ctx, +ctx.params.userId);
     await ctx.render('users/index', {
+      currentUser: ctx.state.currentUser,
+      user,
       showUserPath: (userId) => ctx.router.url('users.show', { userId }),
     });
   },

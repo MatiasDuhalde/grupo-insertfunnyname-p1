@@ -22,6 +22,7 @@ router.get(
       order: [['createdAt', 'DESC']],
       include: 'User',
     });
+    ctx.state.hasNextPage = (await ctx.state.user.countPosts()) > 20;
     return next();
   },
   renderUserQueriedPostsPage,
@@ -41,6 +42,7 @@ router.get(
       order: [['createdAt', 'DESC']],
       include: 'User',
     });
+    ctx.state.hasNextPage = (await ctx.state.user.countPosts()) > 20 * (page - 1);
     return next();
   },
   renderUserQueriedPostsPage,
@@ -58,6 +60,7 @@ router.get(
       order: [['createdAt', 'DESC']],
       include: ['User'],
     });
+    ctx.state.hasNextPage = (await ctx.state.user.countLikedPosts()) > 20;
     return next();
   },
   renderUserQueriedPostsPage,
@@ -77,6 +80,7 @@ router.get(
       order: [['createdAt', 'DESC']],
       include: ['User'],
     });
+    ctx.state.hasNextPage = (await ctx.state.user.countLikedPosts()) > 20 * (page - 1);
     return next();
   },
   renderUserQueriedPostsPage,

@@ -18,6 +18,7 @@ router.get(
       order: [['createdAt', 'DESC']],
       include: ['User'],
     });
+    ctx.state.hasNextPage = (await ctx.orm.Post.count()) > 20;
     return next();
   },
   renderIndexPage,
@@ -35,6 +36,7 @@ router.get(
       order: [['createdAt', 'DESC']],
       include: ['User'],
     });
+    ctx.state.hasNextPage = (await ctx.orm.Post.count()) > 20 * (page - 1);
     return next();
   },
   renderIndexPage,

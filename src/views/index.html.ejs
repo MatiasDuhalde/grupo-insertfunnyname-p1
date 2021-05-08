@@ -79,7 +79,7 @@
         <a class="submit-button" href="<%= nextPagePath(page - 1) %>">Previous page</a>
       <% } %>
       <p>Page <%= page %></p>
-      <% if (posts.length) { %>
+      <% if (hasNextPage) { %>
         <a class="submit-button" href="<%= nextPagePath(page + 1) %>">Next page</a>
       <% } %>
     </div>

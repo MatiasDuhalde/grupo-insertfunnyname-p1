@@ -7,6 +7,13 @@ const checkUserLikedPosts = async (user, posts) => {
   return Promise.all(promises);
 };
 
+const checkPostLikeCount = async (post) => post.countLikedPosts();
+
+const checkPostsLikeCount = async (posts) => {
+  const promises = posts.map((post) => checkPostLikeCount(post));
+  return Promise.all(promises);
+};
+
 const loadCurrentUser = async (ctx, next) => {
   ctx.state.currentUser = await ctx.orm.User.findByPk(2);
   return next();
@@ -80,6 +87,8 @@ const loadAllUserPostsPaged = async (ctx, next) => {
 module.exports = {
   checkUserLikedPost,
   checkUserLikedPosts,
+  checkPostLikeCount,
+  checkPostsLikeCount,
   getSingleUser,
   loadCurrentUser,
   loadSingleUser,

@@ -1,4 +1,9 @@
-const { checkUserLikedPost, checkUserLikedPosts } = require('./queries');
+const {
+  checkUserLikedPost,
+  checkUserLikedPosts,
+  checkPostLikeCount,
+  checkPostsLikeCount,
+} = require('./queries');
 
 module.exports = {
   renderIndexPage: async (ctx) => {
@@ -8,6 +13,7 @@ module.exports = {
       page: +ctx.params.page || 1,
       createPostPath: ctx.router.url('posts.create'),
       likedPosts: await checkUserLikedPosts(ctx.state.currentUser, ctx.state.posts),
+      postsLikeCount: await checkPostsLikeCount(ctx.state.posts),
       hasNextPage: ctx.state.hasNextPage,
       deletePostPath: (postId) => ctx.router.url('posts.delete', { postId }),
       showPostPath: (postId) => ctx.router.url('posts.show', { postId }),
@@ -23,6 +29,7 @@ module.exports = {
       currentUser: ctx.state.currentUser,
       post: ctx.state.post,
       likedPost: await checkUserLikedPost(ctx.state.currentUser, ctx.state.post),
+      postLikeCount: await checkPostLikeCount(ctx.state.post),
       deletePostPath: (postId) => ctx.router.url('posts.delete', { postId }),
       showPostPath: (postId) => ctx.router.url('posts.show', { postId }),
       editPostPath: (postId) => ctx.router.url('posts.edit', { postId }),
@@ -57,6 +64,7 @@ module.exports = {
       user: ctx.state.user,
       page: +ctx.params.page || 1,
       likedPosts: await checkUserLikedPosts(ctx.state.currentUser, ctx.state.posts),
+      postsLikeCount: await checkPostsLikeCount(ctx.state.posts),
       hasNextPage: ctx.state.hasNextPage,
       deletePostPath: (postId) => ctx.router.url('posts.delete', { postId }),
       showPostPath: (postId) => ctx.router.url('posts.show', { postId }),

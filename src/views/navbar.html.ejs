@@ -15,28 +15,28 @@
       </div>
       <div id="menu-container">
         <ul>
-          <% if (true) { // usuario está logeado %>
-          <li id="profile-picture-container">
-            <a href="<%= showUserPath(currentUser.id) %>"
-              ><img
-                id="profile-picture"
-                src="<%= currentUser.avatarLink %> "
-                alt="Profile picture"
-            /></a>
-          </li>
-          <li>
-            <a href="<%= showUserPath(currentUser.id) %>"><%= `${currentUser.firstName} ${currentUser.lastName}` %> </a>
-          </li>
-          <li>
-            <a href="/signout">Sign out</a>
-          </li>
+          <% if (userIsLoggedIn) { // usuario está logeado %>
+            <li id="profile-picture-container">
+              <a href="<%= showUserPath(currentUser.id) %>"
+                ><img
+                  id="profile-picture"
+                  src="<%= currentUser.avatarLink %> "
+                  alt="Profile picture"
+              /></a>
+            </li>
+            <li>
+              <a href="<%= showUserPath(currentUser.id) %>"><%= `${currentUser.firstName} ${currentUser.lastName}` %> </a>
+            </li>
+            <li>
+              <a href="<%= logoutPath %> ">Sign out</a>
+            </li>
           <% } else { // usuario no está logeado %>
-          <li>
-            <a href="/signup">Sign Up</a>
-          </li>
-          <li>
-            <a href="/login">Log In</a>
-          </li>
+            <li>
+              <a href="<%= signupPath %>">Sign Up</a>
+            </li>
+            <li>
+              <a href="<%= loginPath %>">Log In</a>
+            </li>
           <% } %>
         </ul>
       </div>

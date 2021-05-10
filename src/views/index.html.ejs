@@ -37,11 +37,13 @@
           <div class="card__stats__info">
             <div class="card__stats__info__multi">
               <h5><%= postsLikeCount[index] %> </h5>
-              <form action="<%- likedPosts[index] ? unlikePostPath(post.id) : likePostPath(post.id) %>" method="POST">
-                <button type="submit">
-                  <span class="material-icons"><%= likedPosts[index] ? 'airplanemode_inactive' : 'airplanemode_active' %></span>
-                </button>
-              </form>
+              <% if (userIsLoggedIn && likedPosts) { %>
+                <form action="<%- likedPosts[index] ? unlikePostPath(post.id) : likePostPath(post.id) %>" method="POST">
+                  <button type="submit">
+                    <span class="material-icons"><%= likedPosts[index] ? 'airplanemode_inactive' : 'airplanemode_active' %></span>
+                  </button>
+                </form>
+              <% } %>
             </div>
           </div>
         </div>
@@ -53,7 +55,7 @@
           <p class="card__stats__title">Date</p>
           <h5 class="card__stats__info"><%= post.createdAt.toLocaleString('ISO') %> </h5>
         </div>
-        <% if (currentUser.id === post.userId) { %>
+        <% if (userIsLoggedIn && currentUser.id === post.userId) { %>
           <div class="card__stats">
           </div>
           <div class="card__stats">

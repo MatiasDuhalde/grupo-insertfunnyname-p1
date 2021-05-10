@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    const maxPostsLikedPerUser = 10;
+    const maxPostsLikedPerUser = 130;
 
     // Fetching
     const users = await queryInterface.sequelize.query('SELECT "id","createdAt" from "Users";');
@@ -22,17 +22,21 @@ module.exports = {
     const newUserLikesPosts = [];
     usersFields.forEach((user) => {
       const postsLikedNumber = Math.floor(Math.random() * (maxPostsLikedPerUser + 1));
+      const currentlyLikedPosts = [];
       for (let i = 0; i < postsLikedNumber; i += 1) {
         const post = postsFields[Math.floor(Math.random() * postsFields.length)];
-        const lBoundDate = user.createdAt > post.createdAt ? user.createdAt : post.createdAt;
-        const likedDate = faker.date.between(lBoundDate, '2021-04-30');
-        const userLikesPostObject = {
-          userId: user.id,
-          postId: post.id,
-          createdAt: likedDate,
-          updatedAt: likedDate,
-        };
-        newUserLikesPosts.push(userLikesPostObject);
+        if (!currentlyLikedPosts.includes(post.id)) {
+          currentlyLikedPosts.push(post.id);
+          const lBoundDate = user.createdAt > post.createdAt ? user.createdAt : post.createdAt;
+          const likedDate = faker.date.between(lBoundDate, '2021-04-30');
+          const userLikesPostObject = {
+            userId: user.id,
+            postId: post.id,
+            createdAt: likedDate,
+            updatedAt: likedDate,
+          };
+          newUserLikesPosts.push(userLikesPostObject);
+        }
       }
     });
     await queryInterface.bulkInsert('UserLikesPosts', newUserLikesPosts, {});

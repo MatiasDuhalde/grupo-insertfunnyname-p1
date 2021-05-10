@@ -1,5 +1,7 @@
 const getSingleUser = async (ctx, userId) => ctx.orm.User.findByPk(userId);
 
+const getUserByEmail = async (ctx, email) => ctx.orm.User.findOne({ where: { email } });
+
 const checkUserLikedPost = async (user, post) => user.hasLikedPost(post);
 
 const checkUserLikedPosts = async (user, posts) => {
@@ -30,6 +32,7 @@ module.exports = {
   checkUserLikedPost,
   checkUserLikedPosts,
   getSingleUser,
+  getUserByEmail,
   loadCurrentUser,
   loadSingleUser,
   loadSinglePost,

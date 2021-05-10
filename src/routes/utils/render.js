@@ -18,6 +18,20 @@ module.exports = {
       unlikePostPath: (postId) => ctx.router.url('posts.unlike', { postId }),
     });
   },
+  renderLoginPage: async (ctx) => {
+    await ctx.render('session/login', {
+      currentUser: ctx.state.currentUser,
+      showUserPath: (userId) => ctx.router.url('users.show', { userId }),
+      userLoginPath: ctx.router.url('session.login'),
+    });
+  },
+  renderSignupPage: async (ctx) => {
+    await ctx.render('session/signup', {
+      currentUser: ctx.state.currentUser,
+      showUserPath: (userId) => ctx.router.url('users.show', { userId }),
+      userSignupPath: ctx.router.url('session.signup'),
+    });
+  },
   renderPostPage: async (ctx) => {
     await ctx.render('posts/show', {
       currentUser: ctx.state.currentUser,

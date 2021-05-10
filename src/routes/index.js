@@ -2,7 +2,7 @@ const KoaRouter = require('koa-router');
 
 const router = new KoaRouter();
 
-router.get('/', (ctx) => {
+router.get('index.home', '/', (ctx) => {
   ctx.redirect(ctx.router.url('posts.index'));
 });
 

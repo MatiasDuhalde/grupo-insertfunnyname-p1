@@ -7,7 +7,6 @@ const router = new KoaRouter();
 router.get(
   'session.login-form',
   '/login',
-  loadCurrentUser,
   async (ctx, next) => {
     if (ctx.state.currentUser) {
       return ctx.redirect(ctx.router.url('index.home'));
@@ -34,7 +33,6 @@ router.post('session.login', '/login', async (ctx, next) => {
 router.get(
   'session.signup-form',
   '/signup',
-  loadCurrentUser,
   async (ctx, next) => {
     if (ctx.state.currentUser) {
       return ctx.redirect(ctx.router.url('index.home'));

@@ -21,12 +21,14 @@
       <div class="card__stats">
         <p class="card__stats__title">Likes</p>
         <div class="card__stats__info">
-          <h5>1023</h5>
-          <form action="<%- likedPost ? unlikePostPath(post.id) : likePostPath(post.id) %>" method="POST">
-            <button type="submit">
-              <span class="material-icons"><%= likedPost ? 'airplanemode_inactive' : 'airplanemode_active' %></span>
-            </button>
-          </form>
+          <div class="card__stats__info__multi">
+            <h5><%= postLikeCount %> </h5>
+            <form action="<%- likedPost ? unlikePostPath(post.id) : likePostPath(post.id) %>" method="POST">
+              <button type="submit">
+                <span class="material-icons"><%= likedPost ? 'airplanemode_inactive' : 'airplanemode_active' %></span>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
       <div class="card__stats">

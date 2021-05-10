@@ -1,6 +1,6 @@
 const KoaRouter = require('koa-router');
 const { validateIntParam } = require('./utils/utils');
-const { loadCurrentUser, loadSinglePost } = require('./utils/queries');
+const { loadCurrentUser, loadSinglePost, loadAllPostsPaged } = require('./utils/queries');
 const { renderIndexPage, renderPostPage, renderPostEditPage } = require('./utils/render');
 
 const router = new KoaRouter();
@@ -8,39 +8,9 @@ const router = new KoaRouter();
 router.param('page', validateIntParam);
 router.param('postId', validateIntParam);
 
-router.get(
-  'posts.index',
-  '/',
-  loadCurrentUser,
-  async (ctx, next) => {
-    ctx.state.posts = await ctx.orm.Post.findAll({
-      limit: 20,
-      order: [['createdAt', 'DESC']],
-      include: ['User'],
-    });
-    ctx.state.hasNextPage = (await ctx.orm.Post.count()) > 20;
-    return next();
-  },
-  renderIndexPage,
-);
+router.get('posts.index', '/', loadCurrentUser, loadAllPostsPaged, renderIndexPage);
 
-router.get(
-  'posts.page',
-  '/page/:page',
-  loadCurrentUser,
-  async (ctx, next) => {
-    const { page } = ctx.params;
-    ctx.state.posts = await ctx.orm.Post.findAll({
-      offset: (page - 1) * 20,
-      limit: 20,
-      order: [['createdAt', 'DESC']],
-      include: ['User'],
-    });
-    ctx.state.hasNextPage = (await ctx.orm.Post.count()) > 20 * (page - 1);
-    return next();
-  },
-  renderIndexPage,
-);
+router.get('posts.page', '/page/:page', loadCurrentUser, loadAllPostsPaged, renderIndexPage);
 
 router.get('posts.show', '/:postId', loadCurrentUser, loadSinglePost, renderPostPage);
 

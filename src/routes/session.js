@@ -36,4 +36,8 @@ router.post('session.signup', '/signup', async (ctx, next) => {
   return next();
 });
 
+router.get('session.logout', '/logout', async (ctx) => {
+  ctx.redirect(ctx.router.url('index.home'));
+});
+
 module.exports = router;

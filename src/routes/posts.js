@@ -1,6 +1,6 @@
 const KoaRouter = require('koa-router');
-const { validateIntParam } = require('./utils/utils');
-const { loadCurrentUser, loadSinglePost, loadAllPostsPaged } = require('./utils/queries');
+const { requireLogin, validateIntParam } = require('./utils/utils');
+const { loadSinglePost, loadAllPostsPaged } = require('./utils/queries');
 const { renderIndexPage, renderPostPage, renderPostEditPage } = require('./utils/render');
 
 const router = new KoaRouter();
@@ -8,13 +8,13 @@ const router = new KoaRouter();
 router.param('page', validateIntParam);
 router.param('postId', validateIntParam);
 
-router.get('posts.index', '/', loadCurrentUser, loadAllPostsPaged, renderIndexPage);
+router.get('posts.index', '/', loadAllPostsPaged, renderIndexPage);
 
-router.get('posts.page', '/page/:page', loadCurrentUser, loadAllPostsPaged, renderIndexPage);
+router.get('posts.page', '/page/:page', loadAllPostsPaged, renderIndexPage);
 
-router.get('posts.show', '/:postId', loadCurrentUser, loadSinglePost, renderPostPage);
+router.get('posts.show', '/:postId', loadSinglePost, renderPostPage);
 
-router.post('posts.create', '/', loadCurrentUser, async (ctx) => {
+router.post('posts.create', '/', requireLogin, async (ctx) => {
   try {
     const { imageLink, body } = ctx.request.body;
     const userId = ctx.state.currentUser.id;
@@ -30,7 +30,7 @@ router.post('posts.create', '/', loadCurrentUser, async (ctx) => {
 router.get(
   'posts.edit',
   '/:postId/edit',
-  loadCurrentUser,
+  requireLogin,
   loadSinglePost,
   async (ctx, next) => {
     if (ctx.state.currentUser.id !== ctx.state.post.userId) {
@@ -42,7 +42,7 @@ router.get(
   renderPostEditPage,
 );
 
-router.patch('posts.patch', '/:postId/edit', loadCurrentUser, loadSinglePost, async (ctx) => {
+router.patch('posts.patch', '/:postId/edit', requireLogin, loadSinglePost, async (ctx) => {
   try {
     if (ctx.state.currentUser.id !== ctx.state.post.userId) {
       ctx.status = 403;
@@ -60,7 +60,7 @@ router.patch('posts.patch', '/:postId/edit', loadCurrentUser, loadSinglePost, as
   }
 });
 
-router.delete('posts.delete', '/:postId', loadCurrentUser, loadSinglePost, async (ctx) => {
+router.delete('posts.delete', '/:postId', requireLogin, loadSinglePost, async (ctx) => {
   if (ctx.state.currentUser.id !== ctx.state.post.userId) {
     ctx.status = 403;
     return ctx.throw(403, 'Forbidden');
@@ -69,7 +69,7 @@ router.delete('posts.delete', '/:postId', loadCurrentUser, loadSinglePost, async
   return ctx.redirect('back');
 });
 
-router.post('posts.like', '/:postId/like', loadCurrentUser, loadSinglePost, async (ctx) => {
+router.post('posts.like', '/:postId/like', requireLogin, loadSinglePost, async (ctx) => {
   try {
     ctx.state.currentUser.addLikedPost(ctx.state.post);
     return ctx.redirect('back');
@@ -79,7 +79,7 @@ router.post('posts.like', '/:postId/like', loadCurrentUser, loadSinglePost, asyn
   }
 });
 
-router.post('posts.unlike', '/:postId/unlike', loadCurrentUser, loadSinglePost, async (ctx) => {
+router.post('posts.unlike', '/:postId/unlike', requireLogin, loadSinglePost, async (ctx) => {
   try {
     ctx.state.currentUser.removeLikedPost(ctx.state.post);
     return ctx.redirect('back');

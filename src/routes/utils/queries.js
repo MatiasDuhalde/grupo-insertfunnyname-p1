@@ -1,5 +1,7 @@
 const getSingleUser = async (ctx, userId) => ctx.orm.User.findByPk(userId);
 
+const getUserByEmail = async (ctx, email) => ctx.orm.User.findOne({ where: { email } });
+
 const checkUserLikedPost = async (user, post) => user.hasLikedPost(post);
 
 const checkUserLikedPosts = async (user, posts) => {
@@ -15,7 +17,12 @@ const checkPostsLikeCount = async (posts) => {
 };
 
 const loadCurrentUser = async (ctx, next) => {
-  ctx.state.currentUser = await ctx.orm.User.findByPk(2);
+  const { currentUserId } = ctx.session;
+  if (currentUserId !== undefined) {
+    ctx.state.currentUser = await ctx.orm.User.findByPk(currentUserId);
+  } else {
+    ctx.state.currentUser = null;
+  }
   return next();
 };
 
@@ -90,6 +97,7 @@ module.exports = {
   checkPostLikeCount,
   checkPostsLikeCount,
   getSingleUser,
+  getUserByEmail,
   loadCurrentUser,
   loadSingleUser,
   loadSinglePost,

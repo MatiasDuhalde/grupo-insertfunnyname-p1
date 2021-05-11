@@ -1,4 +1,5 @@
 const { Model } = require('sequelize');
+const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -21,6 +22,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
       });
     }
+
+    static generateHash(password) {
+      return bcrypt.hash(password, bcrypt.genSaltSync(8));
+    }
+
+    validatePassword(password) {
+      return bcrypt.compare(password, this.hashedPassword);
+    }
   }
   User.init(
     {
@@ -28,14 +37,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           isAlphanumeric: true,
-          isNumeric: false,
+          notEmpty: true,
         },
       },
       lastName: {
         type: DataTypes.STRING,
         validate: {
           isAlphanumeric: true,
-          isNumeric: false,
+          notEmpty: true,
         },
       },
       email: {
@@ -45,6 +54,10 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isEmail: true,
         },
+      },
+      hashedPassword: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       avatarLink: {
         type: DataTypes.STRING,

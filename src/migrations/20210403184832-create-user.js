@@ -18,10 +18,6 @@ module.exports = {
         unique: true,
         type: Sequelize.STRING,
       },
-      // hashedPassword: {
-      //   allowNull: false,
-      //   type: Sequelize.STRING,
-      // },
       avatarLink: {
         type: Sequelize.STRING,
       },

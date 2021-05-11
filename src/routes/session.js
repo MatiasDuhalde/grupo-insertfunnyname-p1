@@ -37,7 +37,7 @@ router.post('session.signup', '/signup', excludeLogin, async (ctx, next) => {
   return next();
 });
 
-router.get('session.logout', '/logout', requireLogin, async (ctx) => {
+router.delete('session.logout', '/logout', requireLogin, async (ctx) => {
   ctx.session = null;
   ctx.redirect(ctx.router.url('index.home'));
 });

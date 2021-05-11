@@ -28,7 +28,12 @@
               <a href="<%= showUserPath(currentUser.id) %>"><%= `${currentUser.firstName} ${currentUser.lastName}` %> </a>
             </li>
             <li>
-              <a href="<%= logoutPath %> ">Sign out</a>
+              <form action="<%- logoutPath %>" method="POST">
+                <input type="hidden" name="_method" value="delete" />
+                <button class="logout-button" type="submit">
+                  Log out
+                </button>
+              </form>
             </li>
           <% } else { // usuario no está logeado %>
             <li>

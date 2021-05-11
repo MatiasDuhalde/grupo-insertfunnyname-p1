@@ -1,22 +1,13 @@
 const KoaRouter = require('koa-router');
-const { loadCurrentUser, getUserByEmail } = require('./utils/queries');
+const { excludeLogin, requireLogin } = require('./utils/utils');
+const { getUserByEmail } = require('./utils/queries');
 const { renderLoginPage, renderSignupPage } = require('./utils/render');
 
 const router = new KoaRouter();
 
-router.get(
-  'session.login-form',
-  '/login',
-  async (ctx, next) => {
-    if (ctx.state.currentUser) {
-      return ctx.redirect(ctx.router.url('index.home'));
-    }
-    return next();
-  },
-  renderLoginPage,
-);
+router.get('session.login-form', '/login', excludeLogin, renderLoginPage);
 
-router.post('session.login', '/login', async (ctx, next) => {
+router.post('session.login', '/login', excludeLogin, async (ctx, next) => {
   const { email, password } = ctx.request.body;
   const user = await getUserByEmail(ctx, email);
   if (user && (await user.validatePassword(password))) {
@@ -30,19 +21,9 @@ router.post('session.login', '/login', async (ctx, next) => {
   return next();
 });
 
-router.get(
-  'session.signup-form',
-  '/signup',
-  async (ctx, next) => {
-    if (ctx.state.currentUser) {
-      return ctx.redirect(ctx.router.url('index.home'));
-    }
-    return next();
-  },
-  renderSignupPage,
-);
+router.get('session.signup-form', '/signup', excludeLogin, renderSignupPage);
 
-router.post('session.signup', '/signup', async (ctx, next) => {
+router.post('session.signup', '/signup', excludeLogin, async (ctx, next) => {
   const { firstName, lastName, email, password } = ctx.request.body;
   // const user = await getUserByEmail(email);
 
@@ -56,7 +37,7 @@ router.post('session.signup', '/signup', async (ctx, next) => {
   return next();
 });
 
-router.get('session.logout', '/logout', async (ctx) => {
+router.get('session.logout', '/logout', requireLogin, async (ctx) => {
   ctx.redirect(ctx.router.url('index.home'));
 });
 

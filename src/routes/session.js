@@ -53,7 +53,6 @@ router.post('session.signup', '/signup', excludeLogin, async (ctx) => {
       coverLink: '',
     });
   } catch (validationError) {
-    console.log(validationError);
     ctx.flashMessage.error = validationError.errors;
     return ctx.redirect('back');
   }

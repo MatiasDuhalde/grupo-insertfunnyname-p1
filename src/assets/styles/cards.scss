@@ -109,10 +109,15 @@ main {
   margin-bottom: 40px;
   box-sizing: border-box;
   flex-direction: column;
+
   form {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
+
+    textarea {
+      resize: vertical;
+    }
   }
 }
 

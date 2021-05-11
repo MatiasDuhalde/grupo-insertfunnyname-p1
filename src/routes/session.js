@@ -23,18 +23,42 @@ router.post('session.login', '/login', excludeLogin, async (ctx, next) => {
 
 router.get('session.signup-form', '/signup', excludeLogin, renderSignupPage);
 
-router.post('session.signup', '/signup', excludeLogin, async (ctx, next) => {
-  const { firstName, lastName, email, password } = ctx.request.body;
-  // const user = await getUserByEmail(email);
-
-  // if (user) {
-  //   ctx.session.currentUserId = user.id;
-  //   ctx.redirect(ctx.router.url('index.home'));
-  // } else {
-  //   ctx.redirect(ctx.router.url('session.login-form'));
-  // }
-
-  return next();
+router.post('session.signup', '/signup', excludeLogin, async (ctx) => {
+  const {
+    firstName, //
+    lastName,
+    email,
+    password,
+  } = ctx.request.body;
+  const hashedPassword = await ctx.orm.User.generateHash(password);
+  let user;
+  try {
+    if (password.length < 6) {
+      const validationError = new ctx.orm.Sequelize.ValidationError();
+      const item = new ctx.orm.Sequelize.ValidationErrorItem(
+        'Password is too short',
+        'Validation error',
+        'password',
+        password,
+      );
+      validationError.errors.push(item);
+      throw validationError;
+    }
+    user = await ctx.orm.User.create({
+      firstName,
+      lastName,
+      email,
+      hashedPassword,
+      avatarLink: '',
+      coverLink: '',
+    });
+  } catch (validationError) {
+    console.log(validationError);
+    ctx.flashMessage.error = validationError.errors;
+    return ctx.redirect('back');
+  }
+  ctx.session.currentUserId = user.id;
+  return ctx.redirect(ctx.router.url('index.home'));
 });
 
 router.delete('session.logout', '/logout', requireLogin, async (ctx) => {

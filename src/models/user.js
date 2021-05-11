@@ -37,14 +37,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           isAlphanumeric: true,
-          isNumeric: false,
+          notEmpty: true,
         },
       },
       lastName: {
         type: DataTypes.STRING,
         validate: {
           isAlphanumeric: true,
-          isNumeric: false,
+          notEmpty: true,
         },
       },
       email: {

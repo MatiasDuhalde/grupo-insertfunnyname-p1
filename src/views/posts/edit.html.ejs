@@ -6,7 +6,7 @@
         <label for="imageLink">Image URL</label>
         <input type="url" name="imageLink" value="<%= post.imageLink %>" />
         <label for="body">Body</label>
-        <textarea name="body" value="<%= post.body %>" placeholder="What's on your mind?"></textarea> 
+        <textarea name="body" placeholder="What's on your mind?"><%= post.body %></textarea> 
         <input type="hidden" name="_method" value="patch" />
         <button class="submit-button" type="submit">Submit changes</button>
       </form>

@@ -48,10 +48,6 @@
           </div>
         </div>
         <div class="card__stats">
-          <p class="card__stats__title">Comments</p>
-          <h5 class="card__stats__info">20</h5>
-        </div>
-        <div class="card__stats">
           <p class="card__stats__title">Date</p>
           <h5 class="card__stats__info"><%= post.createdAt.toLocaleString('ISO') %> </h5>
         </div>
@@ -89,12 +85,19 @@
 
   </main>
   <aside id="sidebar">
-    <p class="sidebar-header">Cool stuff and such</p>
-    <p>HOLAA</p>
-    <p>HOLAA</p>
-    <p>HOLAA</p>
-    <p>HOLAA</p>
-    <p>HOLAA</p>
-    <p>HOLAA</p>
+    <p class="sidebar-header">Random Post</p>
+    <div class= "sidebar-randompost__image">
+      <a href="<%= showPostPath(randomPost.id) %>">
+        <img src="<%= randomPost.imageLink %>"/>
+      </a>
+    </div>
+    <p class="sidebar-header">More Cool Posts</p>
+    <div class= "sidebar-randompost__image">
+      <% randomPosts.forEach((post, index) => { %>
+        <a href="<%= showPostPath(post.id) %>">
+          <img src="<%= post.imageLink %>"/>
+        </a>
+      <% }) %>
+    </div>
   </aside>
 </div>

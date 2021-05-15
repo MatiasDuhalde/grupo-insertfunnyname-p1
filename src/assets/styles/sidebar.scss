@@ -12,10 +12,28 @@
   grid-gap: 10px;
   box-shadow: 0 3px 15px rgba(#333, 0.2);
   transition: 0.2s ease;
+  padding: 20px;
 }
 
 .sidebar-header {
   margin: 10px 30px 15px;
   font: 700 20px/1.2 'Poppins', sans-serif;
   margin-bottom: 10px;
+}
+
+.sidebar-randompost{
+  &__image {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+
+    img {
+      width: 100%;
+      object-fit: contain;
+    }
+    a {
+      display: flex;
+    }
+  }
 }

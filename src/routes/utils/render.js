@@ -3,6 +3,8 @@ const {
   checkUserLikedPosts,
   checkPostLikeCount,
   checkPostsLikeCount,
+  getRandomPost,
+  getRandomPosts,
 } = require('./queries');
 
 module.exports = {
@@ -19,6 +21,8 @@ module.exports = {
       posts: ctx.state.posts,
       page: +ctx.params.page || 1,
       createPostPath: ctx.router.url('posts.create'),
+      randomPost: await getRandomPost(ctx),
+      randomPosts: await getRandomPosts(ctx, 3),
       likedPosts,
       postsLikeCount: await checkPostsLikeCount(ctx.state.posts),
       hasNextPage: ctx.state.hasNextPage,

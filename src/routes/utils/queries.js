@@ -2,6 +2,16 @@ const getSingleUser = async (ctx, userId) => ctx.orm.User.findByPk(userId);
 
 const getUserByEmail = async (ctx, email) => ctx.orm.User.findOne({ where: { email } });
 
+const getRandomPost = async (ctx) => {
+  const randomPost = await ctx.orm.Post.findAll({ order: ctx.orm.Sequelize.literal('random()'), limit: 1 });
+  return randomPost[0];
+};
+
+const getRandomPosts = async (ctx, limitNumber) => {
+  const randomPost = await ctx.orm.Post.findAll({ order: ctx.orm.Sequelize.literal('random()'), limit: limitNumber });
+  return randomPost;
+};
+
 const checkUserLikedPost = async (user, post) => user.hasLikedPost(post);
 
 const checkUserLikedPosts = async (user, posts) => {
@@ -103,4 +113,6 @@ module.exports = {
   loadSinglePost,
   loadAllPostsPaged,
   loadAllUserPostsPaged,
+  getRandomPost,
+  getRandomPosts,
 };

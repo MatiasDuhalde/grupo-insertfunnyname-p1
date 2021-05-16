@@ -1,29 +1,39 @@
-.about__section {
-    width:960px;
-    margin:auto;
+/*Fuente: https://codepen.io/renwalker/pen/grcnA*/
+
+.team_member {
+  width:100%;
+  position:relative;
+  overflow:hidden;
+  height:250px;
+}
+
+.about_info {
+  height:100%;
+  padding: 10px;
+  img {
+    border-radius: 50%;
   }
-  
-  .about__section .about__slot {
-    width:33%;
-    box-sizing: border-box;
-    background-color:#f5f5f5;
-    /*border:1px solid #ccc;*/
-    border-right:none;
-    border-top:none;
-    height:15vw;
-    min-height:300px;
-    min-width:220px;
-    display:inline-block;
-    vertical-align:top;
-    text-align:center;
-    cursor:pointer;
-    position:relative;
-    background-size:0% auto;
-    -webkit-transition:all 0.3s linear;
-    background-position:center center;
-    background-repeat:no-repeat;
-    overflow:hidden;
+
+  h5 {
+    padding: 10px 10px 0 0;
+    margin: 0 0 10px 3px;
+    line-height: 1em;
+    opacity: 1;
+    font-size: 1.125em;
+  }
+
+  h6 {
+    padding:0 10px 0 0;
+    font-size:12px;
+    margin:0 0 0 3px;
+    line-height:1em;
+    text-transform:uppercase;
+    color:#999;
+    opacity:1;;
   }
 }
-  
-  
+
+.about_grid {
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+}

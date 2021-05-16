@@ -35,6 +35,16 @@ module.exports = {
       unlikePostPath: (postId) => ctx.router.url('posts.unlike', { postId }),
     });
   },
+  renderAboutPage: async (ctx) => {
+    await ctx.render('about', {
+      userIsLoggedIn: Boolean(ctx.state.currentUser),
+      currentUser: ctx.state.currentUser,
+      loginPath: ctx.router.url('session.login'),
+      signupPath: ctx.router.url('session.signup'),
+      logoutPath: ctx.router.url('session.logout'),
+      showUserPath: (userId) => ctx.router.url('users.show', { userId }),
+    });
+  },
   renderLoginPage: async (ctx) => {
     await ctx.render('session/login', {
       userIsLoggedIn: Boolean(ctx.state.currentUser),

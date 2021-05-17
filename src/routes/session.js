@@ -49,8 +49,8 @@ router.post('session.signup', '/signup', excludeLogin, async (ctx) => {
       lastName,
       email,
       hashedPassword,
-      avatarLink: '',
-      coverLink: '',
+      avatarLink: 'https://png.pngtree.com/png-vector/20191026/ourlarge/pngtree-avatar-vector-icon-white-background-png-image_1870181.jpg',
+      coverLink: 'https://llandscapes-10674.kxcdn.com/wp-content/uploads/2019/07/lighting.jpg.webp',
     });
   } catch (validationError) {
     ctx.flashMessage.error = validationError.errors;

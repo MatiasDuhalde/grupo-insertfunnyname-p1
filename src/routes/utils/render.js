@@ -90,6 +90,11 @@ module.exports = {
   },
   renderPostEditPage: async (ctx) => {
     await ctx.render('posts/edit', {
+      userIsLoggedIn: Boolean(ctx.state.currentUser),
+      currentUser: ctx.state.currentUser,
+      loginPath: ctx.router.url('session.login'),
+      signupPath: ctx.router.url('session.signup'),
+      logoutPath: ctx.router.url('session.logout'),
       post: ctx.state.post,
       showUserPath: (userId) => ctx.router.url('users.show', { userId }),
       patchPostPath: (postId) => ctx.router.url('posts.patch', { postId }),
@@ -106,6 +111,19 @@ module.exports = {
       showUserPath: (userId) => ctx.router.url('users.show', { userId }),
       showUserCreatedPostsPath: (userId) => ctx.router.url('users.show.posts', { userId }),
       showUserLikedPostsPath: (userId) => ctx.router.url('users.show.liked', { userId }),
+      editUserPath: (userId) => ctx.router.url('users.edit', { userId }),
+    });
+  },
+  renderUserEditPage: async (ctx) => {
+    await ctx.render('users/edit', {
+      userIsLoggedIn: Boolean(ctx.state.currentUser),
+      currentUser: ctx.state.currentUser,
+      loginPath: ctx.router.url('session.login'),
+      signupPath: ctx.router.url('session.signup'),
+      logoutPath: ctx.router.url('session.logout'),
+      showUserPath: (userId) => ctx.router.url('users.show', { userId }),
+      user: ctx.state.user,
+      patchUserPath: (userId) => ctx.router.url('users.edit', { userId }),
     });
   },
   renderUserQueriedPostsPage: async (ctx) => {

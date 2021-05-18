@@ -47,6 +47,12 @@
           </a>
         </div>
       </div>
+      <% if (userIsLoggedIn && currentUser.id == user.id) { %>
+        <div class="card__stats">
+          <p class="card__stats__title">Edit profile</p>
+          <a href="<%= editUserPath(user.id) %> "><span class="material-icons">edit</span></a>
+        </div>
+      <% } %>
     </div>
   </main>
 </div>

@@ -1,7 +1,11 @@
 const KoaRouter = require('koa-router');
-const { validateIntParam } = require('./utils/utils');
+const { validateIntParam, requireLogin } = require('./utils/utils');
 const { loadSingleUser, loadAllUserPostsPaged } = require('./utils/queries');
-const { renderUserPage, renderUserQueriedPostsPage } = require('./utils/render');
+const {
+  renderUserPage,
+  renderUserEditPage,
+  renderUserQueriedPostsPage,
+} = require('./utils/render');
 
 const router = new KoaRouter();
 
@@ -9,6 +13,51 @@ router.param('userId', validateIntParam);
 router.param('page', validateIntParam);
 
 router.get('users.show', '/:userId', loadSingleUser, renderUserPage);
+
+router.get(
+  'users.edit',
+  '/:userId/edit',
+  requireLogin,
+  loadSingleUser,
+  async (ctx, next) => {
+    if (ctx.state.currentUser.id !== ctx.state.user.id) {
+      ctx.status = 403;
+      return ctx.throw(403, 'Forbidden');
+    }
+    return next();
+  },
+  renderUserEditPage,
+);
+
+router.patch('users.patch', '/:userId/edit', requireLogin, loadSingleUser, async (ctx) => {
+  try {
+    if (ctx.state.currentUser.id !== ctx.state.user.id) {
+      ctx.status = 403;
+      return ctx.throw(403, 'Forbidden');
+    }
+    const {
+      firstName, //
+      lastName,
+      avatarLink,
+      coverLink,
+      password,
+    } = ctx.request.body;
+    ctx.state.user.firstName = firstName;
+    ctx.state.user.lastName = lastName;
+    ctx.state.user.avatarLink = avatarLink;
+    ctx.state.user.coverLink = coverLink;
+    if (password) {
+      const hashedPassword = await ctx.orm.User.generateHash(password);
+      ctx.state.user.hashedPassword = hashedPassword;
+    }
+    await ctx.state.user.save();
+    return ctx.redirect(ctx.router.url('users.show', { userId: ctx.state.user.id }));
+  } catch (validationError) {
+    ctx.flashMessage.error = validationError.errors;
+    // TODO: Process error
+    return ctx.redirect(ctx.router.url('users.edit', { userId: ctx.state.user.id }));
+  }
+});
 
 router.get(
   'users.show.posts',

@@ -52,9 +52,16 @@ router.patch('users.patch', '/:userId/edit', requireLogin, loadSingleUser, async
     }
     await ctx.state.user.save();
     return ctx.redirect(ctx.router.url('users.show', { userId: ctx.state.user.id }));
-  } catch (validationError) {
-    ctx.flashMessage.error = validationError.errors;
-    // TODO: Process error
+  } catch (err) {
+    const messages = {};
+    if (err instanceof ctx.orm.Sequelize.ValidationError) {
+      err.errors.forEach((errorItem) => {
+        messages[errorItem.path] = errorItem.message;
+      });
+    } else {
+      messages.password = err.message;
+    }
+    ctx.flashMessage.danger = messages;
     return ctx.redirect(ctx.router.url('users.edit', { userId: ctx.state.user.id }));
   }
 });

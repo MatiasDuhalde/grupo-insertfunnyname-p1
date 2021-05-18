@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static generateHash(password) {
+      if (password.length < 6) {
+        throw Error('Password must be at least 6 characters');
+      }
       return bcrypt.hash(password, bcrypt.genSaltSync(8));
     }
 
@@ -36,23 +39,41 @@ module.exports = (sequelize, DataTypes) => {
       firstName: {
         type: DataTypes.STRING,
         validate: {
-          isAlphanumeric: true,
-          notEmpty: true,
+          isAlphanumeric: {
+            args: true,
+            msg: 'First name must be alphanumeric',
+          },
+          notEmpty: {
+            args: true,
+            msg: "First name can't be empty",
+          },
         },
       },
       lastName: {
         type: DataTypes.STRING,
         validate: {
-          isAlphanumeric: true,
-          notEmpty: true,
+          isAlphanumeric: {
+            args: true,
+            msg: 'Last name must be alphanumeric',
+          },
+          notEmpty: {
+            args: true,
+            msg: "Last name can't be empty",
+          },
         },
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: {
+          args: true,
+          msg: "There's already another account using that email",
+        },
         validate: {
-          isEmail: true,
+          isEmail: {
+            args: true,
+            msg: 'Email must have a valid format',
+          },
         },
       },
       hashedPassword: {

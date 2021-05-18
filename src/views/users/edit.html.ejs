@@ -1,0 +1,21 @@
+<div class="sunset cards-canvas">
+  <main class="cards-list">
+    <div class="card form-card">
+      <h2>Edit post</h2>
+      <form action="<%= patchUserPath(user.id) %>" enctype="multipart/form-data" method="post">
+        <label for="avatarLink">Avatar URL</label>
+        <input type="url" name="avatarLink" value="<%= user.avatarLink %>" />
+        <label for="coverLink">Cover URL</label>
+        <input type="url" name="coverLink" value="<%= user.coverLink %>" />
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" value="<%= user.firstName %>" />
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" value="<%= user.lastName %>" />
+        <label for="password">New password</label>
+        <input type="password" name="password" />
+        <input type="hidden" name="_method" value="patch" />
+        <button class="submit-button" type="submit">Submit changes</button>
+      </form>
+    </div>
+  </main>
+</div>

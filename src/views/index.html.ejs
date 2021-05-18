@@ -86,18 +86,26 @@
   </main>
   <aside id="sidebar">
     <p class="sidebar-header">Random Post</p>
-    <div class= "sidebar-randompost__image">
-      <a href="<%= showPostPath(randomPost.id) %>">
-        <img src="<%= randomPost.imageLink %>"/>
-      </a>
-    </div>
-    <p class="sidebar-header">More Cool Posts</p>
-    <div class= "sidebar-randompost__image">
-      <% randomPosts.forEach((post, index) => { %>
-        <a href="<%= showPostPath(post.id) %>">
-          <img src="<%= post.imageLink %>"/>
+    <% if (randomPost) { %>
+      <div class= "sidebar-randompost__image">
+        <a href="<%= showPostPath(randomPost.id) %>">
+          <img src="<%= randomPost.imageLink %>"/>
         </a>
-      <% }) %>
-    </div>
+      </div>
+    <% } else { %>
+      <p>Oops! Could not retrieve a random post.</p>
+    <% } %>
+    <p class="sidebar-header">More Cool Posts</p>
+    <% if (randomPost) { %>
+      <div class= "sidebar-randompost__image">
+        <% randomPosts.forEach((post, index) => { %>
+          <a href="<%= showPostPath(post.id) %>">
+            <img src="<%= post.imageLink %>"/>
+          </a>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <p>Oops! No more posts to show.</p>
+    <% } %>
   </aside>
 </div>

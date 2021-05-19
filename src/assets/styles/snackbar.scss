@@ -1,0 +1,44 @@
+.snack-wrap {
+  display: flex;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  padding: 0px;
+  z-index: 9;
+}
+
+.snackbar {
+  display: flex;
+  background: #222;
+  padding: 10px 20px 10px 20px;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  transition: bottom 0.5s ease-in-out;
+}
+
+.warning {
+  background: orange;
+  color: black;
+}
+
+.danger {
+  background: orangered;
+  color: white;
+}
+
+.snackclose {
+  visibility: hidden;
+}
+
+.snacklabel {
+  padding-left: 10px;
+  justify-content: center;
+  align-self: center;
+  z-index: 11;
+  cursor: pointer;
+}
+
+.snackclose:checked ~ .snackbar {
+  visibility: hidden;
+}

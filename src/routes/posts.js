@@ -20,9 +20,16 @@ router.post('posts.create', '/', requireLogin, async (ctx) => {
     const userId = ctx.state.currentUser.id;
     ctx.orm.Post.create({ imageLink, body, userId });
     return ctx.redirect(ctx.router.url('posts.index'));
-  } catch (validationError) {
-    ctx.flashMessage.error = validationError.errors;
-    // TODO: Process error
+  } catch (err) {
+    const messages = {};
+    if (err instanceof ctx.orm.Sequelize.ValidationError) {
+      err.errors.forEach((errorItem) => {
+        messages[errorItem.path] = errorItem.message;
+      });
+    } else {
+      messages.post = 'Could not create post';
+    }
+    ctx.flashMessage.danger = messages;
     return ctx.redirect(ctx.router.url('posts.index'));
   }
 });
@@ -53,9 +60,16 @@ router.patch('posts.patch', '/:postId/edit', requireLogin, loadSinglePost, async
     ctx.state.post.body = body;
     await ctx.state.post.save();
     return ctx.redirect(ctx.router.url('posts.show', { postId: ctx.state.post.id }));
-  } catch (validationError) {
-    ctx.flashMessage.error = validationError.errors;
-    // TODO: Process error
+  } catch (err) {
+    const messages = {};
+    if (err instanceof ctx.orm.Sequelize.ValidationError) {
+      err.errors.forEach((errorItem) => {
+        messages[errorItem.path] = errorItem.message;
+      });
+    } else {
+      messages.post = 'Could not modify post';
+    }
+    ctx.flashMessage.danger = messages;
     return ctx.redirect(ctx.router.url('posts.edit', { postId: ctx.state.post.id }));
   }
 });
@@ -73,8 +87,9 @@ router.post('posts.like', '/:postId/like', requireLogin, loadSinglePost, async (
   try {
     ctx.state.currentUser.addLikedPost(ctx.state.post);
     return ctx.redirect('back');
-  } catch (validationError) {
-    ctx.flashMessage.error = validationError.errors;
+  } catch (err) {
+    const messages = { like: 'Could not like post' };
+    ctx.flashMessage.danger = messages;
     return ctx.redirect('back');
   }
 });
@@ -83,8 +98,9 @@ router.post('posts.unlike', '/:postId/unlike', requireLogin, loadSinglePost, asy
   try {
     ctx.state.currentUser.removeLikedPost(ctx.state.post);
     return ctx.redirect('back');
-  } catch (validationError) {
-    ctx.flashMessage.error = validationError.errors;
+  } catch (err) {
+    const messages = { like: 'Could not unlike post' };
+    ctx.flashMessage.danger = messages;
     return ctx.redirect('back');
   }
 });

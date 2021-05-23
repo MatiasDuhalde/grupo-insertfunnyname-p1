@@ -1,0 +1,28 @@
+<% if (locals.flashMessage) { %>
+  <% const { danger, warning, success, notice } = flashMessage %> 
+  <% flashType = '' %> 
+  <% if (danger) { %>
+    <% flashType = 'danger'; %>
+  <% } else if (warning) { %>
+    <% flashType = 'warning'; %>
+  <% } else if (notice) { %>
+    <% flashType = 'notice'; %>
+  <% } else if (success) { %>
+    <% flashType = 'success'; %>
+  <% } %>
+  <% const flashContent = (danger || warning || notice || success) %> 
+  <% if (flashContent) { %>
+    <div class="snack-wrap">
+      <input type="checkbox" class="snackclose" id="close" autocomplete="off" />
+      <div class="snackbar  <%= flashType %>">
+        <div>
+          <p><strong><%= flashType[0].toUpperCase() + flashType.slice(1) %>:</strong></p>
+          <% for (const element in flashContent) { %>
+            <p><%= flashContent[element] %></p>
+          <% } %>
+        </div>
+        <label class="material-icons snacklabel  <%= flashType %>" for="close">close</label>
+      </div>
+    </div>
+  <% } %>
+<% } %>

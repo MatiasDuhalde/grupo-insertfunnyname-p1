@@ -64,8 +64,9 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hot-loader": "^4.12.21",
-    "sequelize": "^6.3.5",
-    "sequelize-cli": "^6.2.0"
+    "sequelize": "^6.6.2",
+    "sequelize-cli": "^6.2.0",
+    "yarn": "^1.22.10"
   },
   "engines": {
     "node": "10.x || 12.x",

@@ -1,22 +1,23 @@
 const orm = require('..');
 
 describe('user model', () => {
+  const sampleUserData = {
+    firstName: 'John',
+    lastName: 'Web',
+    email: 'user@example.org',
+    password: '12345678',
+    avatarLink: 'https://cdn.fakercloud.com/avatars/tgerken_128.jpg',
+    coverLink: 'https://picsum.photos/seed/0.8774069009477856/1000/500',
+  };
+
   beforeAll(async () => {
+    sampleUserData.hashedPassword = await orm.User.generateHash('12345678');
     await orm.sequelize.sync({ force: true });
   });
 
   afterAll(async () => {
     await orm.sequelize.close();
   });
-
-  const sampleUserData = {
-    firstName: 'John',
-    lastName: 'Web',
-    email: 'user@example.org',
-    hashedPassword: orm.User.generateHash('12345678'),
-    avatarLink: 'https://cdn.fakercloud.com/avatars/tgerken_128.jpg',
-    coverLink: 'https://picsum.photos/seed/0.8774069009477856/1000/500',
-  };
 
   describe('create user', () => {
     test('firstName must be not empty', async () => {
@@ -33,6 +34,9 @@ describe('user model', () => {
       expect(() => orm.User.generateHash('12345')).toThrowError(
         'Password must be at least 6 characters',
       );
+    });
+    test('create user', async () => {
+      await expect(orm.User.create(sampleUserData)).resolves.toBeInstanceOf(orm.User);
     });
   });
 });

@@ -22,7 +22,7 @@ describe('user model', () => {
     await orm.sequelize.close();
   });
 
-  describe('dummyPost', () => {
+  describe('create post', () => {
     const samplePostData = {
       imageLink: 'https://picsum.photos/seed/0.8774069009477856/1000/500',
       body: 'Insert Funny Name test',

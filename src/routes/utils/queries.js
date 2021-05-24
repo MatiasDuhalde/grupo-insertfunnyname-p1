@@ -18,9 +18,9 @@ const getRandomPosts = async (ctx, limitNumber) => {
   return randomPosts;
 };
 
-const checkUserLikedPost = async (user, post) => user.hasLikedPost(post);
+const checkUserLikedPost = async (user, post) => user.hasLikedPost(post); 
 
-const checkUserLikedPosts = async (user, posts) => {
+const checkUserLikedPosts = async (user, posts) => { 
   const promises = posts.map((post) => checkUserLikedPost(user, post));
   return Promise.all(promises);
 };

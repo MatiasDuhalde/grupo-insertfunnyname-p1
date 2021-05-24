@@ -39,4 +39,21 @@ describe('user model', () => {
       await expect(orm.User.create(sampleUserData)).resolves.toBeInstanceOf(orm.User);
     });
   });
+
+  describe('validate user password', () => {
+    let user;
+
+    beforeAll(async () => {
+      user = await orm.User.create({ ...sampleUserData, email: 'test@example.com' });
+    });
+
+    test('validate incorrect password', async () => {
+      const wrongPassword = 'wrongpassword!!!';
+      await expect(user.validatePassword(wrongPassword)).resolves.toBe(false);
+    });
+    test('validate correct password', async () => {
+      const wrongPassword = sampleUserData.password;
+      await expect(user.validatePassword(wrongPassword)).resolves.toBe(true);
+    });
+  });
 });

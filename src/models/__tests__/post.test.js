@@ -10,12 +10,12 @@ describe('user model', () => {
     coverLink: 'https://picsum.photos/seed/0.8774069009477856/1000/500',
   };
 
-  const mocked = {};
+  let user;
 
   beforeAll(async () => {
     sampleUserData.hashedPassword = await orm.User.generateHash('12345678');
     await orm.sequelize.sync({ force: true });
-    mocked.user = await orm.User.create(sampleUserData);
+    user = await orm.User.create(sampleUserData);
   });
 
   afterAll(async () => {
@@ -29,7 +29,7 @@ describe('user model', () => {
     };
 
     beforeAll(async () => {
-      samplePostData.userId = mocked.user.id;
+      samplePostData.userId = user.id;
     });
 
     test('userId must not be null', async () => {

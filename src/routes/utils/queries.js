@@ -18,9 +18,9 @@ const getRandomPosts = async (ctx, limitNumber) => {
   return randomPosts;
 };
 
-const checkUserLikedPost = async (user, post) => user.hasLikedPost(post); 
+const checkUserLikedPost = async (user, post) => user.hasLikedPost(post);
 
-const checkUserLikedPosts = async (user, posts) => { 
+const checkUserLikedPosts = async (user, posts) => {
   const promises = posts.map((post) => checkUserLikedPost(user, post));
   return Promise.all(promises);
 };
@@ -51,7 +51,7 @@ const loadSingleUser = async (ctx, next) => {
 
 const loadSinglePost = async (ctx, next) => {
   const { postId } = ctx.params;
-  ctx.state.post = await ctx.orm.Post.findByPk(+postId, {
+  ctx.state.post = await ctx.orm.Post.findByPk(postId, {
     include: [
       {
         model: ctx.orm.User,

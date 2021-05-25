@@ -51,7 +51,7 @@ const loadSingleUser = async (ctx, next) => {
 
 const loadSinglePost = async (ctx, next) => {
   const { postId } = ctx.params;
-  ctx.state.post = await ctx.orm.Post.findByPk(+postId, {
+  ctx.state.post = await ctx.orm.Post.findByPk(postId, {
     include: [
       {
         model: ctx.orm.User,
